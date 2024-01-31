@@ -15,7 +15,8 @@ code {
 .App {
 	display:flex;
 	flex-direction: column;
-	overflow: scroll;
+	overflow-y: scroll;
+	scrollbar-width: none;
 }
 
 .App__WebContainer__Header__MenuSection {
@@ -25,15 +26,15 @@ code {
 	z-index: 2;
 	position: fixed;
 	width: 100vw;
-	height: 100px;
-	background:linear-gradient(rgb(255, 255, 255, 1),transparent);
+	height: 80px;
+	background:linear-gradient(rgb(0, 0, 0),transparent);
 	/* background-color: red; */
 }
 
 .App__WebContainer__Header__MenuSection__Logo {
 	height: 50%;
-	margin-top: 20px;
-	margin-left: 20px;
+	margin-top: 13px;
+	margin-left: 13px;
 	/* background-color: rgb(82, 67, 221); */
 }
 
@@ -48,10 +49,20 @@ code {
 	border-radius: 20px; /* Utilisez cette propriété pour des bords arrondis */
 	cursor: pointer;
 	font-size: 16px;
-	background-color: rgb(245, 192, 123);
+	background-color: rgb(255, 255, 255);
 }
 
 .App__WebContainer__Website__Main {
+	display: flex;
+	flex-direction: column;
+	z-index: 0;
+	height: 145vh;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+}
+
+.App__WebContainer__Website__Main__Background {
 	z-index: 1;
 	position: absolute;
 	margin-top: -16%;
@@ -61,12 +72,38 @@ code {
 	background-size: cover;
 }
 
+.App__WebContainer__Website__Main__PrimarySentence {
+	z-index: 2;
+	margin-top: -26%;
+	font-size: 50px;
+	color: white;
+
+	/* background-color: aquamarine; */
+}
+
+.App__WebContainer__Website__Main__CreateAccount {
+	z-index: 2;
+	margin-top: 20px;
+	margin-right: 20px;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 20px; /* Utilisez cette propriété pour des bords arrondis */
+	cursor: pointer;
+	font-size: 20px;
+	color: white;
+	background:linear-gradient(rgb(245, 149, 71),rgb(255, 15, 15));
+}
+
 .App__WebContainer__Footer {
 	z-index: 2;
-	position: fixed;
-	bottom: 0;
+	position: absolute;
+	bottom: -410px;
 	width: 100vw;
 	height: 40vh;
-	/* margin-bottom: 0%; */
-	background-color: red;
+	background-color: grey;
+}
+
+body.scrolling .App__WebContainer__Footer {
+  bottom: 0;
+  
 }

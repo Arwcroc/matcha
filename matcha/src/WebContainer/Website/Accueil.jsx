@@ -4,9 +4,17 @@ import BackImg from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/
 
 const Accueil = () => {
 	return (
-		<Box className="App__WebContainer__Website__Main">
-			<img src={BackImg} style={{ width:"100%", height:"80%"}}/>
-		</Box>
+		<div>
+			<Box className="App__WebContainer__Website__Main">
+				<img className="App__WebContainer__Website__Main__Background" src={BackImg} style={{ width:"100%"}}/>
+				<Box className="App__WebContainer__Website__Main__PrimarySentence">
+					He gonna rolling mechanics
+				</Box>
+				<Box className="App__WebContainer__Website__Main__CreateAccount">
+					Create Account
+				</Box>
+			</Box>
+		</div>
 	);
 }
 
