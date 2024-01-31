@@ -27,7 +27,7 @@ code {
 	position: fixed;
 	width: 100vw;
 	height: 80px;
-	background:linear-gradient(rgb(0, 0, 0),transparent);
+	background:linear-gradient(rgb(90, 89, 89),transparent);
 	/* background-color: red; */
 }
 
