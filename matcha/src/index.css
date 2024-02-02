@@ -55,6 +55,79 @@ code {
 	align-items: center;
 }
 
+.App__WebContainer__Header__MenuSection__Dialog {
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	height: 450px;
+}
+
+.App__WebContainer__Header__PopUp {
+	display: flex;
+	flex-direction: column;
+	height:450px;
+	border-radius: 25px;
+	background-color: rgba(223, 223, 223, 0.253);
+}
+
+.App__WebContainer__Header__PopUp__Name {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%;
+	font-size: 40px;
+}
+
+.App__WebContainer__Header__PopUp__PassMail {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+	height:40%;
+	align-items: center;
+	justify-content: center;
+	justify-content: space-around;
+}
+
+.App__WebContainer__Header__PopUp__UsualAsk {
+	display: flex;
+	flex-direction: row;
+	align-items: center ;
+	margin-bottom: 3%;
+	justify-content: space-around;
+}
+
+.App__WebContainer__Header__PopUp__UsualAsk__Forgot {
+	margin-bottom: 1%;
+	cursor: pointer;
+}
+
+.App__WebContainer__Header__PopUp__Validate {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-left: 20px;
+	height: 10%;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 16px;
+	background-color: rgb(255, 255, 255);
+	align-items: center;
+	justify-content: center;
+}
+
+.App__WebContainer__Header__PopUp__CreateAccount {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	margin-right: 20%;
+	margin-left: 20%;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+}
+
 .App__WebContainer__Header__MenuSection__MenuIcon {
 	margin-top: 25px;
 	margin-right: 13px;;

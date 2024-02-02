@@ -2,6 +2,30 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import BackImg from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/backgroung-unsplash.jpg';
 import Logo from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MenuSection/uletter.png';
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
+const SlideBox = () => {
+	return (
+	<CarouselProvider
+		naturalSlideWidth={50}
+		naturalSlideHeight={50}
+		totalSlides={3}
+	>
+		<Slider>
+			<Slide index={0}>
+				<img src={BackImg} alt="Slide 1" />
+			</Slide>
+			<Slide index={1}>
+				<img src={Logo} alt="Slide 2" />
+			</Slide>
+		 	<Slide index={2}>
+				<img src={Logo} alt="Slide 3" />
+			</Slide>
+		</Slider>
+	</CarouselProvider>
+	);
+}
 
 const Swipe = () => {
 	return (
@@ -20,7 +44,8 @@ const Swipe = () => {
 				</Box>
 				<Box className="App__WebContainer__Website__Main__PrimaryCard">
 					<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
-						Je suis une carte
+						<SlideBox />
+						Je suis pas la
 					</Box>
 					<Box className="App__WebContainer__Website__Main__Response">
 						<Box className="App__WebContainer__Website__Main__Response__No">
