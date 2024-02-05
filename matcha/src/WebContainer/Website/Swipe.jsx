@@ -7,23 +7,23 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const SlideBox = () => {
 	return (
-	<CarouselProvider
-		naturalSlideWidth={50}
-		naturalSlideHeight={50}
-		totalSlides={3}
-	>
-		<Slider>
-			<Slide index={0}>
-				<img src={BackImg} alt="Slide 1" />
-			</Slide>
-			<Slide index={1}>
-				<img src={Logo} alt="Slide 2" />
-			</Slide>
-		 	<Slide index={2}>
-				<img src={Logo} alt="Slide 3" />
-			</Slide>
-		</Slider>
-	</CarouselProvider>
+		<CarouselProvider
+			naturalSlideWidth={100}
+			naturalSlideHeight={125}
+			totalSlides={3}
+		>
+			<Slider>
+				<Slide index={0}>
+					<img src={Logo} alt="Slide 1" />
+				</Slide>
+				<Slide index={1}>
+					<img src={Logo} alt="Slide 2" />
+				</Slide>
+				<Slide index={2}>
+					<img src={Logo} alt="Slide 3" />
+				</Slide>
+			</Slider>
+		</CarouselProvider>
 	);
 }
 
