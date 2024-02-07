@@ -2,27 +2,27 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import BackImg from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/backgroung-unsplash.jpg';
 import Logo from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MenuSection/uletter.png';
-import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import Portrait from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/joconde.jpg';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const SlideBox = () => {
 	return (
 		<CarouselProvider
 			naturalSlideWidth={100}
-			naturalSlideHeight={125}
-			totalSlides={3}
+			naturalSlideHeight={100}
+			totalSlides={5}
+			className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Slider"
 		>
-			<Slider>
-				<Slide index={0}>
-					<img src={Logo} alt="Slide 1" />
-				</Slide>
-				<Slide index={1}>
-					<img src={Logo} alt="Slide 2" />
-				</Slide>
-				<Slide index={2}>
-					<img src={Logo} alt="Slide 3" />
-				</Slide>
+			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
+			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
+				<Slide index={0}><img src={Portrait} alt="Slide 1"/></Slide>
+				<Slide index={1}><img src={Logo} alt="Slide 2" width="100%" height="100%"/></Slide>
+				<Slide index={2}><img src={Portrait} alt="Slide 3" width="100%" height="100%"/></Slide>
+				<Slide index={3}><img src={Logo} alt="Slide 4" width="100%" height="100%"/></Slide>
+				<Slide index={4}><img src={Portrait} alt="Slide 5" width="100%" height="100%"/></Slide>
 			</Slider>
+			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
 		</CarouselProvider>
 	);
 }
@@ -33,19 +33,14 @@ const Swipe = () => {
 			<Box className="App__WebContainer__Website__Main">
 				<img className="App__WebContainer__Website__Main__Background" src={BackImg} style={{ width:"100%"}}/>
 				<Box className="App__WebContainer__Website__Main__OldOldCard">
-					<Box className="App__WebContainer__Website__Main__OldOldCard__Profile">
-						Je suis une tres vieille carte
-					</Box>
+					<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
 				</Box>
 				<Box className="App__WebContainer__Website__Main__OldCard">
-					<Box className="App__WebContainer__Website__Main__OldCard__Profile">
-						Je suis une vieille carte
-					</Box>
+					<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
 				</Box>
 				<Box className="App__WebContainer__Website__Main__PrimaryCard">
 					<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
 						<SlideBox />
-						Je suis pas la
 					</Box>
 					<Box className="App__WebContainer__Website__Main__Response">
 						<Box className="App__WebContainer__Website__Main__Response__No">
