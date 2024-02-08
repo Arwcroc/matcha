@@ -1,8 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import BackImg from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/backgroung-unsplash.jpg';
-import Logo from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MenuSection/uletter.png';
-import Portrait from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/joconde.jpg';
+import BackImg from '../../Images/MainPage/backgroung-unsplash.jpg';
+import Logo from '../../Images/MenuSection/uletter.png';
+import Portrait from '../../Images/MainPage/joconde.jpg';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
@@ -16,11 +16,11 @@ const SlideBox = () => {
 		>
 			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
 			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
-				<Slide index={0}><img src={Portrait} alt="Slide 1"/></Slide>
-				<Slide index={1}><img src={Logo} alt="Slide 2" width="100%" height="100%"/></Slide>
-				<Slide index={2}><img src={Portrait} alt="Slide 3" width="100%" height="100%"/></Slide>
-				<Slide index={3}><img src={Logo} alt="Slide 4" width="100%" height="100%"/></Slide>
-				<Slide index={4}><img src={Portrait} alt="Slide 5" width="100%" height="100%"/></Slide>
+				<Slide index={0}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
+				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={Logo} alt="Slide 2"/></div></Slide>
+				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 3"/></div></Slide>
+				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Logo} alt="Slide 4"/></div></Slide>
+				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 5"/></div></Slide>
 			</Slider>
 			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
 		</CarouselProvider>

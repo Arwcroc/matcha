@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Logo from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MenuSection/Urme-logo.png';
+import Logo from '../../Images/MenuSection/Urme-logo.png';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const MenuSection_Connect = () => {
