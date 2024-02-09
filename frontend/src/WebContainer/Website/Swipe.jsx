@@ -3,7 +3,11 @@ import Box from '@mui/material/Box';
 import BackImg from '../../Images/MainPage/backgroung-unsplash.jpg';
 import Logo from '../../Images/MenuSection/uletter.png';
 import Portrait from '../../Images/MainPage/joconde.jpg';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import GirlPort from '../../Images/MainPage/Girl_Pearl.jpg';
+import Donna from '../../Images/MainPage/donna.jpg';
+import Meuh from '../../Images/MainPage/meuhmeuh.jpg';
+import Ermine from '../../Images/MainPage/Ermine.jpg';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const SlideBox = () => {
@@ -13,14 +17,16 @@ const SlideBox = () => {
 			naturalSlideHeight={100}
 			totalSlides={5}
 			className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Slider"
+			infinite
 		>
+			<DotGroup className="App__WebContainer__Website__Main__PrimaryCard__Carousel__DotGroup" />
 			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
 			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
 				<Slide index={0}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
-				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={Logo} alt="Slide 2"/></div></Slide>
-				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 3"/></div></Slide>
-				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Logo} alt="Slide 4"/></div></Slide>
-				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 5"/></div></Slide>
+				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
+				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
+				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
+				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
 			</Slider>
 			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
 		</CarouselProvider>
