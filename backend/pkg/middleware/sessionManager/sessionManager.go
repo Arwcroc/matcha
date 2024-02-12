@@ -57,13 +57,10 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 			slog.Debug("SessionManager: session created")
 		}
 
-		c.Locals("session", &session)
-		next := c.Next()
-
-		aaa := c.Locals("session")
-		if aaa == nil {
+		if c.Locals("session", &session) == nil {
 			return fiber.ErrInternalServerError
 		}
+		next := c.Next()
 
 		if (*s.store).Set(&session) != nil {
 			slog.Warn("SessionManager: Could not save session " + err.Error())

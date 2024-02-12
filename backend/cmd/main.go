@@ -1,7 +1,10 @@
 package main
 
 import (
+	"github.com/arangodb/go-driver"
 	"github.com/gofiber/fiber/v2"
+	"matcha/backend/pkg/database/arangodb"
+	"matcha/backend/pkg/middleware/databaseManager"
 	"matcha/backend/pkg/middleware/logger"
 	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/routes/auth"
@@ -15,9 +18,7 @@ import (
 
 func startServer(app *fiber.App, bindAddress string) {
 	err := app.Listen(bindAddress)
-	if err != nil {
-		slog.Error(err.Error())
-	}
+	slog.LogErrorExit(err)
 }
 
 func main() {
@@ -29,16 +30,35 @@ func main() {
 	conf.print()
 
 	memoryStore := memory.New()
+	err := memoryStore.Connect()
+	slog.LogErrorExit(err)
+	defer memoryStore.Disconnect()
 	sessions := sessionManager.New(memoryStore, sessionManager.Config{
 		CookieKey: conf.cookieKey,
 	})
 
+	arango := arangodb.New(conf.dbConfig.url, "matcha",
+		driver.BasicAuthentication(conf.dbConfig.username, conf.dbConfig.password),
+	)
+	slog.Info("Connecting to arangodb server")
+	err = arango.Connect()
+	slog.LogErrorExit(err)
+	defer func() {
+		slog.Info("Disconnecting from arangodb server")
+		arango.Disconnect()
+	}()
+
 	app := fiber.New()
+
+	app.Use(databaseManager.NewHandler(databaseManager.Config{
+		Database: &arango,
+	}))
 
 	auth.Register(app)
 	user.Register(app)
 
 	app.Use(logger.NewHandler(logger.Config{}))
+
 	app.Use(sessions.NewHandler())
 
 	go startServer(app, conf.bindAddress)
