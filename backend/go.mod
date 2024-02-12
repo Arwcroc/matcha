@@ -1,6 +1,6 @@
 module matcha/backend
 
-go 1.21
+go 1.18
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect

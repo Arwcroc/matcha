@@ -1,9 +1,10 @@
 package sessionManager
 
 import (
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/utils"
-	"log/slog"
+	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 )
 
@@ -39,7 +40,7 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 
 		session, err := (*s.store).Get(sessionCookie)
 		if err != nil {
-			if err != fiber.ErrNotFound {
+			if !errors.Is(err, fiber.ErrNotFound) {
 				slog.Warn("SessionManager: Could not get session: " + err.Error())
 				return err
 			}

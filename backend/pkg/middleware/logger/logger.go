@@ -1,9 +1,10 @@
 package logger
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"log/slog"
+	"matcha/backend/pkg/slog"
 	"time"
 )
 
@@ -26,9 +27,15 @@ func NewHandler(config Config) fiber.Handler {
 			c.Path(),
 		)
 
+		statusCode := c.Response().StatusCode()
+		var fiberErr *fiber.Error
+		if errors.As(next, &fiberErr) {
+			statusCode = fiberErr.Code
+		}
+
 		logString = fmt.Sprintf("%s -> %d (%dμs, %dB)",
 			logString,
-			c.Response().StatusCode(),
+			statusCode,
 			time.Since(start).Microseconds(),
 			len(c.Response().Body()),
 		)
