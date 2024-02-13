@@ -53,8 +53,8 @@ func main() {
 	app.Use(databaseManager.NewHandler(databaseManager.Config{
 		Database: &arango,
 	}))
-	app.Use(logger.NewHandler(logger.Config{}))
 	app.Use(sessions.NewHandler())
+	app.Use(logger.NewHandler(logger.Config{}))
 
 	auth.Register(app)
 	user.Register(app)

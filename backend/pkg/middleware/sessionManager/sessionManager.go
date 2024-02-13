@@ -2,6 +2,7 @@ package sessionManager
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/utils"
 	"matcha/backend/pkg/slog"
@@ -59,6 +60,12 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 
 		if c.Locals("session", &session) == nil {
 			return fiber.ErrInternalServerError
+		}
+
+		if username := session.Get("username"); username != nil {
+			slog.Debug(fmt.Sprintf("Session: %.5s -> %s", session.GetKey(), username.(string)))
+		} else {
+			slog.Debug(fmt.Sprintf("Session: %.5s", session.GetKey()))
 		}
 		next := c.Next()
 
