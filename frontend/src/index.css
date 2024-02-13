@@ -30,6 +30,15 @@ code {
 	scrollbar-width: none;
 }
 
+
+
+
+
+
+
+
+
+
 .App__WebContainer__Header__MenuSection {
 	display: flex;
 	justify-content: space-between;
@@ -77,6 +86,14 @@ code {
 	width: 400px;
 	height: 450px;
 }
+
+
+
+
+
+
+
+
 
 .App__WebContainer__Header__PopUp {
 	display: flex;
@@ -144,10 +161,91 @@ code {
 	justify-content: center;
 }
 
+
+
+
+
+
+
+.App__WebContainer__Header__MenuSection__ProfilePopUp {
+	display: flex;
+	flex-direction: column;
+	width: 550px;
+	height: 600px;
+}
+
+.App__WebContainer__Header__ProfilePopUp {
+	display: flex;
+	flex-direction: column;
+	height: 550px;
+	border-radius: 25px;
+	background-color: rgba(223, 223, 223, 0.253);
+}
+
+.App__WebContainer__Header__ProfilePopUp__Title {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%;
+	font-size: 40px;
+}
+
+.App__WebContainer__Header__ProfilePopUp__Name {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__LastName {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Age {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Score {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Gender {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__SexualInterest {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Place {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Bio {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Tags {
+
+}
+
+.App__WebContainer__Header__ProfilePopUp__Pics {
+
+}
+
+
+
+
+
+
+
 .App__WebContainer__Header__MenuSection__MenuIcon {
 	margin-top: 25px;
 	margin-right: 13px;;
 }
+
+
+
+
+
+
+
 
 .App__WebContainer__Website__Main {
 	display: flex;
@@ -188,6 +286,14 @@ code {
 	color: white;
 	background:linear-gradient(rgb(245, 149, 71),rgb(255, 15, 15));
 }
+
+
+
+
+
+
+
+
 
 .App__WebContainer__Website__Main__PrimaryCard {
 	display: flex;
@@ -308,6 +414,13 @@ code {
   color: rgba(255, 255, 255, 0.733);
 }
 
+
+
+
+
+
+
+
 .App__WebContainer__Website__Main__Response {
 	display: flex;
 	width: 100%;
@@ -347,6 +460,13 @@ code {
 .App__WebContainer__Website__Main__Response__Yes:hover {
 	background-color: rgb(53, 153, 22);
 }
+
+
+
+
+
+
+
 
 .App__WebContainer__Website__Main__OldCard {
 	display: flex;
@@ -423,6 +543,13 @@ code {
 	align-items: center;
 	justify-content: center;
 }
+
+
+
+
+
+
+
 
 .App__WebContainer__Footer {
 	z-index: 2;
