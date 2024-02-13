@@ -100,13 +100,13 @@ func createUser(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
-	userDriver.SetField("password", "")
+	userDriver.SetField("password", nil)
 	return c.JSON(*newUser)
 }
 
 func getUser(c *fiber.Ctx) error {
 	paramUser := c.Locals("param_user").(object.Driver)
-	paramUser.SetField("password", "")
+	paramUser.SetField("password", nil)
 	return c.JSON(*paramUser.GetInternal())
 }
 
@@ -136,7 +136,7 @@ func setUser(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
-	paramUser.SetField("password", "")
+	paramUser.SetField("password", nil)
 	return c.JSON(*newUser)
 }
 
