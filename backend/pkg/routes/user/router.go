@@ -3,22 +3,12 @@ package user
 import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
 	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/slog"
+	"matcha/backend/pkg/utils"
 )
-
-func hashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-func checkPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
 
 // TODO find a way to put this in the database manager middleware (through decorators ?)
 func getObjectDriver(c *fiber.Ctx) error {
@@ -79,7 +69,7 @@ func createUser(c *fiber.Ctx) error {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
-	inputUser.Password, err = hashPassword(inputUser.Password)
+	inputUser.Password, err = utils.HashPassword(inputUser.Password)
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
@@ -100,13 +90,13 @@ func createUser(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
-	userDriver.SetField("password", "")
+	userDriver.SetField("password", nil)
 	return c.JSON(*newUser)
 }
 
 func getUser(c *fiber.Ctx) error {
 	paramUser := c.Locals("param_user").(object.Driver)
-	paramUser.SetField("password", "")
+	paramUser.SetField("password", nil)
 	return c.JSON(*paramUser.GetInternal())
 }
 
@@ -120,7 +110,7 @@ func setUser(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 	if inputUser.Password == "" {
-		inputUser.Password, err = hashPassword(paramUser.GetField("password").(string))
+		inputUser.Password, err = utils.HashPassword(paramUser.GetField("password").(string))
 	}
 	inputUser.Username = paramUser.GetField("username").(string)
 
@@ -136,7 +126,7 @@ func setUser(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
-	paramUser.SetField("password", "")
+	paramUser.SetField("password", nil)
 	return c.JSON(*newUser)
 }
 
