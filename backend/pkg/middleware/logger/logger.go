@@ -33,10 +33,10 @@ func NewHandler(config Config) fiber.Handler {
 			statusCode = fiberErr.Code
 		}
 
-		logString = fmt.Sprintf("%s -> %d (%dμs, %dB)",
+		logString = fmt.Sprintf("%s -> %d (%dms, %dB)",
 			logString,
 			statusCode,
-			time.Since(start).Microseconds(),
+			time.Since(start).Milliseconds(),
 			len(c.Response().Body()),
 		)
 

@@ -18,23 +18,34 @@ type ObjectDriver struct {
 	collection    driver.Collection
 }
 
+func (o *ObjectDriver) withReturnNew() context.Context {
+	return driver.WithReturnNew(o.ctx, &o.wrappedObject)
+}
+
 func (o *ObjectDriver) Name() string {
 	return o.collection.Name()
+}
+
+func (o *ObjectDriver) GetField(key string) interface{} {
+	return o.wrappedObject[key]
+}
+
+func (o *ObjectDriver) SetField(key string, value interface{}) {
+	o.wrappedObject[key] = value
 }
 
 func (o *ObjectDriver) GetInternal() *map[string]interface{} {
 	return &o.wrappedObject
 }
 
-func (o *ObjectDriver) withReturnNew() context.Context {
-	return driver.WithReturnNew(o.ctx, &o.wrappedObject)
-}
-
-func (o *ObjectDriver) SetType(object object.Object) error {
+func (o *ObjectDriver) SetInternal(object object.Object) error {
 	o.wrappedType = object
 	asMap, err := o.wrappedType.AsMap()
 	if err != nil {
 		return err
+	}
+	if o.wrappedObject["_key"] != nil {
+		asMap["_key"] = o.wrappedObject["_key"]
 	}
 	o.wrappedObject = asMap
 	return nil
@@ -60,9 +71,11 @@ func (o *ObjectDriver) Set() (*map[string]interface{}, error) {
 }
 
 func (o *ObjectDriver) Get(key string, value interface{}) (*map[string]interface{}, error) {
+	query := fmt.Sprintf("FOR doc IN %s FILTER doc.%s == @fieldValue RETURN doc", o.collection.Name(), key)
+
 	cursor, err := o.collection.Database().Query(
 		o.withReturnNew(),
-		fmt.Sprintf("FOR doc IN %s FILTER doc.%s == @fieldValue RETURN doc", o.collection.Name(), key),
+		query,
 		map[string]interface{}{
 			"fieldValue": value,
 		},
@@ -72,10 +85,9 @@ func (o *ObjectDriver) Get(key string, value interface{}) (*map[string]interface
 	}
 	defer cursor.Close()
 	if !cursor.HasMore() {
-		return nil, errors.New("not found")
+		return nil, database.NotFoundError
 	}
-	meta, err := cursor.ReadDocument(o.ctx, &o.wrappedObject)
-	slog.Debug(meta)
+	_, err = cursor.ReadDocument(o.ctx, &o.wrappedObject)
 	return &o.wrappedObject, err
 }
 

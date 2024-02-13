@@ -22,4 +22,5 @@ func (e *Error) Error() string {
 
 var (
 	UniqueConstraintError = NewError("unique constraint violated")
+	NotFoundError         = NewError("not found")
 )
