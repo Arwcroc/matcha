@@ -8,9 +8,9 @@ import (
 
 func isSelf(c *fiber.Ctx) (bool, error) {
 	session := c.Locals("session").(*store.Session)
-	id := session.Get("id")
-	paramsID, err := c.ParamsInt("id")
-	return id == paramsID, err
+	id := session.Get("username")
+	username := c.Params("username")
+	return id == username, nil
 }
 
 func Self(next fiber.Handler) fiber.Handler {

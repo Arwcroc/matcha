@@ -10,6 +10,8 @@ type Driver interface {
 	Set() (*map[string]interface{}, error)
 	Get(key string, value interface{}) (*map[string]interface{}, error)
 	Delete() error
+	GetField(string) interface{}
+	SetField(string, interface{})
 	GetInternal() *map[string]interface{}
-	SetType(Object) error
+	SetInternal(Object) error
 }
