@@ -9,7 +9,7 @@ import (
 type Config struct {
 	Filter func(c *fiber.Ctx) bool
 	// Not using interface for Database here since it's hard to make it really generic (unlike SQL)
-	Database *arangodb.DatabaseDriver
+	Database *arangodb.Driver
 }
 
 func NewHandler(config Config) fiber.Handler {

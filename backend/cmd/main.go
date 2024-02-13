@@ -53,13 +53,11 @@ func main() {
 	app.Use(databaseManager.NewHandler(databaseManager.Config{
 		Database: &arango,
 	}))
+	app.Use(logger.NewHandler(logger.Config{}))
+	app.Use(sessions.NewHandler())
 
 	auth.Register(app)
 	user.Register(app)
-
-	app.Use(logger.NewHandler(logger.Config{}))
-
-	app.Use(sessions.NewHandler())
 
 	go startServer(app, conf.bindAddress)
 	slog.Info("Press Ctrl-c to shut down")

@@ -40,7 +40,7 @@ func NewHandler(config Config) fiber.Handler {
 			len(c.Response().Body()),
 		)
 
-		println(logString)
+		slog.Info(logString)
 
 		return next
 	}

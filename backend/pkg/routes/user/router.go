@@ -1,29 +1,24 @@
 package user
 
 import (
-	"context"
-	"github.com/arangodb/go-driver"
+	"errors"
 	"github.com/gofiber/fiber/v2"
-	"matcha/backend/pkg/database/arangodb"
-	"matcha/backend/pkg/objects/user"
+	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/object"
+	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/slog"
 )
 
-func getCollection(c *fiber.Ctx) error {
-	arango := c.Locals("database").(*arangodb.DatabaseDriver)
-	collection, err := arango.Collection(user.User{}.Name())
+// TODO find a way to put this in the database manager middleware (through decorators ?)
+func getObjectDriver(c *fiber.Ctx) error {
+	driver := c.Locals("database").(database.Driver)
+
+	userDriver, err := driver.NewObjectDriver(user.User{})
 	if err != nil {
-		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
-
-	if c.Locals("database_context", arango.Ctx) == nil {
-		slog.Error("could not set database_context")
-		return fiber.ErrInternalServerError
-	}
-
-	if c.Locals("user_collection", collection) == nil {
-		slog.Error("could not set user_collection")
+	if c.Locals("user_driver", userDriver) == nil {
+		slog.Error("could not set user_driver")
 		return fiber.ErrInternalServerError
 	}
 
@@ -32,7 +27,7 @@ func getCollection(c *fiber.Ctx) error {
 
 func Register(app *fiber.App) {
 	group := app.Group("/user")
-	group.Use(getCollection)
+	group.Use(getObjectDriver)
 	group.Post("/", createUser)
 	group.Get("/:id", getUser)
 	group.Put("/:id", setUser)
@@ -40,23 +35,30 @@ func Register(app *fiber.App) {
 }
 
 func createUser(c *fiber.Ctx) error {
-	collection := c.Locals("user_collection").(driver.Collection)
-	databaseCtx := c.Locals("database_context").(context.Context)
+	userDriver := c.Locals("user_driver").(object.Driver)
 
 	inputUser := user.User{}
 	if err := c.BodyParser(&inputUser); err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
+	err := userDriver.SetType(inputUser)
+	if err != nil {
+		slog.Warn(err)
+		return fiber.ErrBadRequest
+	}
 
-	userDriver := arangodb.NewObjectDriver(inputUser, collection, databaseCtx)
 	newUser, err := userDriver.Create()
 	if err != nil {
+		if errors.Is(err, database.UniqueConstraintError) {
+			return fiber.ErrConflict
+		}
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
 
-	return c.JSON(newUser)
+	(*newUser)["password"] = ""
+	return c.JSON(*newUser)
 }
 
 func getUser(c *fiber.Ctx) error {

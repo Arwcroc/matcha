@@ -1,11 +1,9 @@
 package user
 
-import "matcha/backend/pkg/objects"
+import "encoding/json"
 
 type User struct {
-	objects.Object
 	name      string
-	Key       string `json:"_key"`
 	Email     string `json:"email"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
@@ -15,4 +13,15 @@ type User struct {
 
 func (u User) Name() string {
 	return "users"
+}
+
+func (u User) AsMap() (map[string]interface{}, error) {
+	asBytes, err := json.Marshal(u)
+	if err != nil {
+		return nil, err
+	}
+
+	asMap := map[string]interface{}{}
+	err = json.Unmarshal(asBytes, &asMap)
+	return asMap, err
 }

@@ -4,12 +4,11 @@ import (
 	"context"
 	"github.com/arangodb/go-driver"
 	"github.com/arangodb/go-driver/http"
-	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/slog"
 )
 
-type DatabaseDriver struct {
-	database.DatabaseDriver
+type Driver struct {
 	Client       driver.Client
 	Ctx          context.Context
 	url          string
@@ -19,8 +18,18 @@ type DatabaseDriver struct {
 	auth         driver.Authentication
 }
 
-func New(url string, database string, auth driver.Authentication) DatabaseDriver {
-	return DatabaseDriver{
+type ensureHashIndexOptions struct {
+	fields  []string
+	options driver.EnsureHashIndexOptions
+}
+
+type collectionOptions struct {
+	name             string
+	hashIndexOptions []ensureHashIndexOptions
+}
+
+func New(url string, database string, auth driver.Authentication) Driver {
+	return Driver{
 		url:          url,
 		auth:         auth,
 		databaseName: database,
@@ -28,7 +37,7 @@ func New(url string, database string, auth driver.Authentication) DatabaseDriver
 	}
 }
 
-func (d *DatabaseDriver) Connect() error {
+func (d *Driver) Connect() error {
 	conn, err := http.NewConnection(http.ConnectionConfig{
 		Endpoints: []string{d.url},
 	})
@@ -45,11 +54,29 @@ func (d *DatabaseDriver) Connect() error {
 	return err
 }
 
-func (d *DatabaseDriver) Disconnect() error {
+func (d *Driver) Disconnect() error {
 	return nil
 }
 
-func (d *DatabaseDriver) Database() (*driver.Database, error) {
+func (d *Driver) NewObjectDriver(objectType object.Object) (object.Driver, error) {
+	collection, err := d.Collection(objectType.Name())
+	if err != nil {
+		return nil, err
+	}
+	objectAsMap, err := objectType.AsMap()
+	if err != nil {
+		return nil, err
+	}
+
+	return &ObjectDriver{
+		ctx:           d.Ctx,
+		collection:    collection,
+		wrappedType:   objectType,
+		wrappedObject: objectAsMap,
+	}, err
+}
+
+func (d *Driver) Database() (*driver.Database, error) {
 	if d.database != nil {
 		return d.database, nil
 	}
@@ -75,24 +102,51 @@ func (d *DatabaseDriver) Database() (*driver.Database, error) {
 		}
 	}
 
-	collections := []string{"users"}
+	collections := []collectionOptions{
+		{
+			"users",
+			[]ensureHashIndexOptions{
+				{
+					[]string{"username"},
+					driver.EnsureHashIndexOptions{
+						Unique: true,
+						Name:   "username_uniqueness",
+					},
+				},
+				{
+					[]string{"email"},
+					driver.EnsureHashIndexOptions{
+						Unique: true,
+						Name:   "email_uniqueness",
+					},
+				},
+			},
+		},
+	}
 	var retErr error = nil
-	for _, name := range collections {
-		exists, err := db.CollectionExists(d.Ctx, name)
+	for _, collectionOption := range collections {
+		exists, err := db.CollectionExists(d.Ctx, collectionOption.name)
 		if err != nil {
 			retErr = err
 			continue
 		}
 		if exists {
-			slog.Info("Found collection", name)
+			slog.Info("Found collection", collectionOption.name)
 			continue
 		}
 
-		slog.Info("Creating collection", name)
-		_, err = db.CreateCollection(d.Ctx, name, nil)
+		slog.Info("Creating collection", collectionOption.name)
+		collection, err := db.CreateCollection(d.Ctx, collectionOption.name, nil)
 		if err != nil {
 			retErr = err
 			continue
+		}
+		for _, options := range collectionOption.hashIndexOptions {
+			_, _, err = collection.EnsureHashIndex(d.Ctx, options.fields, &options.options)
+			if err != nil {
+				retErr = err
+				continue
+			}
 		}
 	}
 
@@ -100,7 +154,7 @@ func (d *DatabaseDriver) Database() (*driver.Database, error) {
 	return d.database, retErr
 }
 
-func (d *DatabaseDriver) Collection(name string) (driver.Collection, error) {
+func (d *Driver) Collection(name string) (driver.Collection, error) {
 	db, err := d.Database()
 	if err != nil {
 		return nil, err

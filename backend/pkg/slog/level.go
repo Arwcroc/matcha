@@ -18,7 +18,7 @@ func (l Level) String() string {
 	case LevelWarn:
 		return "WARN"
 	case LevelError:
-		return "Error"
+		return "ERROR"
 	}
 	return "NONE"
 }
