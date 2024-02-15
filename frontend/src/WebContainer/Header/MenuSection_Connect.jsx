@@ -23,43 +23,64 @@ import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
+import Portrait from '../../Images/MainPage/joconde.jpg';
+import GirlPort from '../../Images/MainPage/Girl_Pearl.jpg';
+import Donna from '../../Images/MainPage/donna.jpg';
+import Meuh from '../../Images/MainPage/meuhmeuh.jpg';
+import Ermine from '../../Images/MainPage/Ermine.jpg';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+import { Typography } from '@mui/material';
+
+const SlideBox = () => {
+	return (
+		<CarouselProvider
+			naturalSlideWidth={100}
+			naturalSlideHeight={100}
+			totalSlides={5}
+			className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Slider"
+			infinite
+		>
+			<DotGroup className="App__WebContainer__Website__Main__PrimaryCard__Carousel__DotGroup" />
+			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
+			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
+				<Slide index={0}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
+				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
+				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
+				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
+				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
+			</Slider>
+			<Typography className="App__WebContainer__Header__ProfilePopUp__NameAge" fontSize={"24px"}>Sandrine, 14</Typography>
+			<Typography className="App__WebContainer__Header__ProfilePopUp__Place" fontSize={"14px"}>Saint-Etienne</Typography>
+			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
+		</CarouselProvider>
+	);
+}
+
 
 const PopUp_Profile = () => {
 	return (
 		<>
 			<Box className="App__WebContainer__Header__ProfilePopUp">
-				<Box className="App__WebContainer__Header__ProfilePopUp__Title">
-					Profile
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__Name">
-					Name
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__LastName">
-					Last Name
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__Age">
-					Age
+				<Box className="App__WebContainer__Header__ProfilePopUp__FirstBlock">
+					<SlideBox />
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Score">
 					Score
 				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__Gender">
-					Genre
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__SexualInterest">
-					Sexual Interest
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__Place">
-					Place
+				<Box>
+					<Box className="App__WebContainer__Header__ProfilePopUp__Gender">
+						Genre
+					</Box>
+					<Box className="App__WebContainer__Header__ProfilePopUp__SexualInterest">
+						Sexual Interest
+					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Bio">
 					Biography
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Tags">
-					Tag of Interest Globality
-				</Box>
-				<Box className="App__WebContainer__Header__ProfilePopUp__Pics">
-					Pics / Nudes
+					Interest
 				</Box>
 			</Box>
 		</>
