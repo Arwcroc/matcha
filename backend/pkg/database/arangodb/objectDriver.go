@@ -83,10 +83,9 @@ func (o *ObjectDriver) Set() (*map[string]interface{}, error) {
 
 func (o *ObjectDriver) Get(bindValues map[string]interface{}) (*map[string]interface{}, error) {
 	query := fmt.Sprintf("FOR doc IN %s FILTER", o.Collection.Name())
-	for key, _ := range bindValues {
+	for key := range bindValues {
 		query = fmt.Sprintf("%s doc.%s == @%s", query, key, key)
 	}
-
 	query = fmt.Sprintf("%s RETURN doc", query)
 
 	cursor, err := o.Collection.Database().Query(
@@ -103,6 +102,36 @@ func (o *ObjectDriver) Get(bindValues map[string]interface{}) (*map[string]inter
 	}
 	_, err = cursor.ReadDocument(o.Ctx, &o.wrappedObject)
 	return &o.wrappedObject, err
+}
+
+func (o *ObjectDriver) GetAll(bindValues map[string]interface{}) ([]map[string]interface{}, error) {
+	query := fmt.Sprintf("FOR doc IN %s FILTER", o.Collection.Name())
+	for key := range bindValues {
+		query = fmt.Sprintf("%s doc.%s == @%s", query, key, key)
+	}
+	query = fmt.Sprintf("%s RETURN doc", query)
+
+	cursor, err := o.Collection.Database().Query(
+		o.withReturnNew(),
+		query,
+		bindValues,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close()
+
+	docs := []map[string]interface{}{{}}
+	for cursor.HasMore() {
+		doc := map[string]interface{}{}
+		_, err = cursor.ReadDocument(o.withReturnNew(), &doc)
+		if err != nil {
+			return nil, err
+		}
+		docs = append(docs, doc)
+	}
+
+	return docs, nil
 }
 
 func (o *ObjectDriver) Delete() error {

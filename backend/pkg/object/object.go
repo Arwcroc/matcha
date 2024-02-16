@@ -9,6 +9,7 @@ type Driver interface {
 	Create() (*map[string]interface{}, error)
 	Set() (*map[string]interface{}, error)
 	Get(bindValues map[string]interface{}) (*map[string]interface{}, error)
+	GetAll(bindValues map[string]interface{}) ([]map[string]interface{}, error)
 	Delete() error
 	GetField(string) interface{}
 	SetField(string, interface{})
