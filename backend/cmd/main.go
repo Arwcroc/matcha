@@ -47,6 +47,8 @@ func main() {
 		slog.Info("Disconnecting from arangodb server")
 		arango.Disconnect()
 	}()
+	_, err = arango.Database()
+	slog.LogErrorExit(err)
 
 	app := fiber.New()
 
