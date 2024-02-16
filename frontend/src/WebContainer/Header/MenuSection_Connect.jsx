@@ -31,6 +31,13 @@ import Ermine from '../../Images/MainPage/Ermine.jpg';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Rating from '@mui/material/Rating';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 const SlideBox = () => {
 	return (
@@ -57,6 +64,14 @@ const SlideBox = () => {
 	);
 }
 
+const StyledRating = styled(Rating)({
+	'& .MuiRating-iconFilled': {
+	  color: '#ff6d75',
+	},
+	'& .MuiRating-iconHover': {
+	  color: '#ff3d47',
+	},
+});
 
 const PopUp_Profile = () => {
 	return (
@@ -66,21 +81,51 @@ const PopUp_Profile = () => {
 					<SlideBox />
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Score">
-					Score
+					{/* <Rating name="OrgasmScore" value={4} readOnly /> */}
+					<StyledRating
+						name="customized-color"
+						defaultValue={4.6}
+						getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+						precision={0.1}
+						icon={<FavoriteIcon fontSize="inherit" />}
+						emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+						readOnly
+					/>
 				</Box>
-				<Box>
+				<Box className="App__WebContainer__Header__ProfilePopUp__SexInfo">
 					<Box className="App__WebContainer__Header__ProfilePopUp__Gender">
 						Genre
+						<Stack direction="row" spacing={1}>
+							<Chip label="Homme" />
+						</Stack>
 					</Box>
 					<Box className="App__WebContainer__Header__ProfilePopUp__SexualInterest">
 						Sexual Interest
+						<Stack direction="row" spacing={1}>
+							<Chip label="Homme" />
+							<Chip label="Femme" variant="outlined" />
+							<Chip label="Autre" />
+						</Stack>
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Bio">
 					Biography
+					<Box className="App__WebContainer__Header__ProfilePopUp__BioText">
+						Voyageur passionné, rêveur épicurien. 
+						Artiste de la vie cherchant complicité et partage. 
+						Sourire contagieux, esprit curieux. Prêt pour l'aventure.
+					</Box>
+				</Box>
+				<Box className="App__WebContainer__Header__ProfilePopUp__TagsTitle">
+					Interest
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Tags">
-					Interest
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#3dPrint" />
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#Fist"/>
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#Choucroute" />
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#GrosseVoiture" />
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#VroumVroum" />
+					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#France" />
 				</Box>
 			</Box>
 		</>
@@ -90,20 +135,13 @@ const PopUp_Profile = () => {
 const PopUp_Message = () => {
 	return (
 		<>
-			<Box className="App__WebContainer__Header__PopUp">
-				<Box className="App__WebContainer__Header__PopUp__Name">
-					Login
+			<Box className="App__WebContainer__Header__MessagePopUp">
+				<Box className="App__WebContainer__Header__MessagePopUp__GuysSection">
+					partie gens
 				</Box>
-				<Box className="App__WebContainer__Header__PopUp__PassMail">
-					<TextField id="email" label="Email" variant="standard" className="App__WebContainer__Header__PopUp__Email"/>
-					<TextField id="password" label="Password" variant="standard" className="App__WebContainer__Header__PopUp__Password"/>
+				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
+					partie message
 				</Box>
-				<Box className="App__WebContainer__Header__PopUp__UsualAsk">
-					<FormControlLabel control={<Checkbox />} label="Remember me" />
-					<Box className="App__WebContainer__Header__PopUp__UsualAsk__Forgot">Forgot Password ?</Box>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__Validate">Login</Box>
-				<Box className="App__WebContainer__Header__PopUp__CreateAccount">Click here to create an account !</Box>
 			</Box>
 		</>
 	);
@@ -316,8 +354,8 @@ const MenuSection_Connect = () => {
 					</DialogContent>
 				</Dialog>
 				<Dialog open={messageOpen} onClose={() => setMessageOpen(false)}>
-					<DialogContent className="App__WebContainer__Header__MenuSection__Dialog">
-						<PopUp_Login />
+					<DialogContent className="App__WebContainer__Header__MenuSection__MessagePopUp">
+						<PopUp_Message />
 					</DialogContent>
 				</Dialog>
 				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)}>

@@ -161,7 +161,7 @@ code {
 .App__WebContainer__Header__MenuSection__ProfilePopUp {
 	display: flex;
 	flex-direction: column;
-	width: 550px;
+	width: 300px;
 	/* height: 650px; */
 	align-items: center;
 }
@@ -179,8 +179,8 @@ code {
 .App__WebContainer__Header__ProfilePopUp__FirstBlock {
 	display: flex;
 	flex-direction: row;
-	height: 60%;
-	width: 60%;
+	height: 90%;
+	width: 90%;
 
 }
 
@@ -203,23 +203,51 @@ code {
 }
 
 .App__WebContainer__Header__ProfilePopUp__Score {
-
+	padding-top: 6px;
 }
 
 .App__WebContainer__Header__ProfilePopUp__Gender {
-
+	padding-bottom: 6px;
 }
 
 .App__WebContainer__Header__ProfilePopUp__SexualInterest {
-
+	padding-bottom: 6px;
 }
 
 .App__WebContainer__Header__ProfilePopUp__Bio {
+	margin: auto;
+	width: 70%;
+	padding-bottom: 6px;
+}
 
+.App__WebContainer__Header__ProfilePopUp__BioText {
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.08);
+	font-size: 0.9rem;
+	border-radius: 16px;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	margin-left: -5%;
+}
+
+.App__WebContainer__Header__ProfilePopUp__TagsTitle {
+	width: 70%;
 }
 
 .App__WebContainer__Header__ProfilePopUp__Tags {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 90%;
+	height: 100px;
+	padding-bottom: 6px;
+	/* background-color: black; */
+}
 
+.App__WebContainer__Header__ProfilePopUp__Tags_Tag {
+	margin-left: 1em;
 }
 
 
@@ -227,68 +255,71 @@ code {
 
 
 
-
-/* .App__WebContainer__Header__MenuSection__ProfilePopUp {
+.App__WebContainer__Header__MenuSection__MessagePopUp {
 	display: flex;
 	flex-direction: column;
-	width: 550px;
-	height: 600px;
+	width: 500px;
+	height: 80%;
+	background-color: rebeccapurple;
 }
 
-.App__WebContainer__Header__ProfilePopUp {
-	display: flex;
-	flex-direction: column;
+.App__WebContainer__Header__MessagePopUp__GuysSection {
+	/* display: flex;
+	flex-direction: column; */
+	width: 40%;
 	height: 550px;
 	border-radius: 25px;
 	background-color: rgba(223, 223, 223, 0.253);
 }
 
-.App__WebContainer__Header__ProfilePopUp__Title {
-	display: flex;
-	justify-content: center;
-	margin-top: 5%;
-	font-size: 40px;
+.App__WebContainer__Header__MessagePopUp__MessageSection {
+	/* display: flex;
+	flex-direction: column; */
+	width: 40%;
+	height: 550px;
+	border-radius: 25px;
+	background-color: rgba(223, 223, 223, 0.253);
 }
 
-.App__WebContainer__Header__ProfilePopUp__Name {
-
-}
-
-.App__WebContainer__Header__ProfilePopUp__LastName {
-
-}
-
-.App__WebContainer__Header__ProfilePopUp__Age {
+.App__WebContainer__Header__MessagePopUp__Name {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Score {
+.App__WebContainer__Header__MessagePopUp__LastName {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Gender {
+.App__WebContainer__Header__MessagePopUp__Age {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__SexualInterest {
+.App__WebContainer__Header__MessagePopUp__Score {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Place {
+.App__WebContainer__Header__MessagePopUp__Gender {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Bio {
+.App__WebContainer__Header__MessagePopUp__SexualInterest {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Tags {
+.App__WebContainer__Header__MessagePopUp__Place {
 
 }
 
-.App__WebContainer__Header__ProfilePopUp__Pics {
+.App__WebContainer__Header__MessagePopUp__Bio {
 
-} */
+}
+
+.App__WebContainer__Header__MessagePopUp__Tags {
+
+}
+
+.App__WebContainer__Header__MessagePopUp__Pics {
+
+}
 
 
 
