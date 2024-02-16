@@ -61,6 +61,7 @@ func Register(app *fiber.App) {
 }
 
 func createUser(c *fiber.Ctx) error {
+	c.Accepts("json")
 	userDriver := c.Locals("user_driver").(object.Driver)
 
 	inputUser := user.User{}
@@ -73,6 +74,9 @@ func createUser(c *fiber.Ctx) error {
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
+	}
+	if !routes.CheckEmail(inputUser.Email) {
+		return fiber.ErrBadRequest
 	}
 
 	err = userDriver.SetInternal(inputUser)
@@ -101,6 +105,7 @@ func getUser(c *fiber.Ctx) error {
 }
 
 func setUser(c *fiber.Ctx) error {
+	c.Accepts("json")
 	paramUser := c.Locals("param_user").(object.Driver)
 
 	inputUser := user.User{}
@@ -109,8 +114,11 @@ func setUser(c *fiber.Ctx) error {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
+	if !routes.CheckEmail(inputUser.Email) {
+		return fiber.ErrBadRequest
+	}
 	if inputUser.Password == "" {
-		inputUser.Password, err = utils.HashPassword(paramUser.GetField("password").(string))
+		inputUser.Password = paramUser.GetField("password").(string)
 	}
 	inputUser.Username = paramUser.GetField("username").(string)
 

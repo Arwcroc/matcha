@@ -11,19 +11,30 @@ import (
 	"strings"
 )
 
+type Document struct {
+	Key string `json:"_key,omitempty"`
+	Id  string `json:"_id,omitempty"`
+	Rev string `json:"_rev,omitempty"`
+}
+
+type EdgeDocument struct {
+	Document
+	driver.EdgeDocument
+}
+
 type ObjectDriver struct {
 	wrappedType   object.Object
 	wrappedObject map[string]interface{}
-	ctx           context.Context
-	collection    driver.Collection
+	Ctx           context.Context
+	Collection    driver.Collection
 }
 
 func (o *ObjectDriver) withReturnNew() context.Context {
-	return driver.WithReturnNew(o.ctx, &o.wrappedObject)
+	return driver.WithReturnNew(o.Ctx, &o.wrappedObject)
 }
 
 func (o *ObjectDriver) Name() string {
-	return o.collection.Name()
+	return o.Collection.Name()
 }
 
 func (o *ObjectDriver) GetField(key string) interface{} {
@@ -52,7 +63,7 @@ func (o *ObjectDriver) SetInternal(object object.Object) error {
 }
 
 func (o *ObjectDriver) Create() (*map[string]interface{}, error) {
-	_, err := o.collection.CreateDocument(o.withReturnNew(), o.wrappedObject)
+	_, err := o.Collection.CreateDocument(o.withReturnNew(), o.wrappedObject)
 	if err != nil {
 		if strings.Contains(err.Error(), "unique constraint violated") {
 			slog.Debug(err)
@@ -66,19 +77,22 @@ func (o *ObjectDriver) Set() (*map[string]interface{}, error) {
 	if o.wrappedObject["_key"] == nil {
 		return nil, errors.New("object has no _key")
 	}
-	_, err := o.collection.UpdateDocument(o.withReturnNew(), o.wrappedObject["_key"].(string), o.wrappedObject)
+	_, err := o.Collection.UpdateDocument(o.withReturnNew(), o.wrappedObject["_key"].(string), o.wrappedObject)
 	return &o.wrappedObject, err
 }
 
-func (o *ObjectDriver) Get(key string, value interface{}) (*map[string]interface{}, error) {
-	query := fmt.Sprintf("FOR doc IN %s FILTER doc.%s == @fieldValue RETURN doc", o.collection.Name(), key)
+func (o *ObjectDriver) Get(bindValues map[string]interface{}) (*map[string]interface{}, error) {
+	query := fmt.Sprintf("FOR doc IN %s FILTER", o.Collection.Name())
+	for key, _ := range bindValues {
+		query = fmt.Sprintf("%s doc.%s == @%s", query, key, key)
+	}
 
-	cursor, err := o.collection.Database().Query(
+	query = fmt.Sprintf("%s RETURN doc", query)
+
+	cursor, err := o.Collection.Database().Query(
 		o.withReturnNew(),
 		query,
-		map[string]interface{}{
-			"fieldValue": value,
-		},
+		bindValues,
 	)
 	if err != nil {
 		return nil, err
@@ -87,7 +101,7 @@ func (o *ObjectDriver) Get(key string, value interface{}) (*map[string]interface
 	if !cursor.HasMore() {
 		return nil, database.NotFoundError
 	}
-	_, err = cursor.ReadDocument(o.ctx, &o.wrappedObject)
+	_, err = cursor.ReadDocument(o.Ctx, &o.wrappedObject)
 	return &o.wrappedObject, err
 }
 
@@ -95,6 +109,6 @@ func (o *ObjectDriver) Delete() error {
 	if o.wrappedObject["_key"] == nil {
 		return errors.New("object has no _key")
 	}
-	_, err := o.collection.RemoveDocument(o.ctx, o.wrappedObject["_key"].(string))
+	_, err := o.Collection.RemoveDocument(o.Ctx, o.wrappedObject["_key"].(string))
 	return err
 }

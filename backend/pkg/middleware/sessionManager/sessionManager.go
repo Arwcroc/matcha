@@ -43,13 +43,13 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 		if err != nil {
 			if !errors.Is(err, fiber.ErrNotFound) {
 				slog.Warn("SessionManager: Could not get session: " + err.Error())
-				return err
+				return fiber.ErrInternalServerError
 			}
 			slog.Debug("SessionManager: No session, creating...")
 			session, err = (*s.store).Create(utils.UUIDv4())
 			if err != nil {
 				slog.Warn("SessionManager: Could not create session " + err.Error())
-				return err
+				return fiber.ErrInternalServerError
 			}
 			c.Cookie(&fiber.Cookie{
 				Name:  s.Config.CookieKey,
@@ -69,9 +69,9 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 		}
 		next := c.Next()
 
-		if (*s.store).Set(&session) != nil {
+		if err := (*s.store).Set(&session); err != nil {
 			slog.Warn("SessionManager: Could not save session " + err.Error())
-			return err
+			return fiber.ErrInternalServerError
 		}
 
 		return next

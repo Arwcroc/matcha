@@ -1,8 +1,12 @@
 package user
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"matcha/backend/pkg/database/arangodb"
+)
 
 type User struct {
+	arangodb.Document
 	name      string
 	Email     string `json:"email"`
 	FirstName string `json:"first_name"`

@@ -8,7 +8,7 @@ type Object interface {
 type Driver interface {
 	Create() (*map[string]interface{}, error)
 	Set() (*map[string]interface{}, error)
-	Get(key string, value interface{}) (*map[string]interface{}, error)
+	Get(bindValues map[string]interface{}) (*map[string]interface{}, error)
 	Delete() error
 	GetField(string) interface{}
 	SetField(string, interface{})

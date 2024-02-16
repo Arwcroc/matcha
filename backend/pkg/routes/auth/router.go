@@ -62,7 +62,9 @@ func login(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	_, err = userDriver.Get(key, value)
+	_, err = userDriver.Get(map[string]interface{}{
+		key: value,
+	})
 	if err != nil {
 		if errors.Is(err, database.NotFoundError) {
 			return fiber.ErrNotFound
@@ -90,7 +92,9 @@ func whoami(c *fiber.Ctx) error {
 	userDriver := c.Locals("user_driver").(object.Driver)
 	session := c.Locals("session").(*store.Session)
 
-	_, err := userDriver.Get("username", session.Get("username").(string))
+	_, err := userDriver.Get(map[string]interface{}{
+		"username": session.Get("username").(string),
+	})
 	if err != nil {
 		if errors.Is(err, database.NotFoundError) {
 			return fiber.ErrNotFound
