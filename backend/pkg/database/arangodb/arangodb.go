@@ -28,6 +28,17 @@ type collectionOptions struct {
 	hashIndexOptions []ensureHashIndexOptions
 }
 
+type vertexConstraints struct {
+	name              string
+	vertexConstraints driver.VertexConstraints
+}
+
+type graphOptions struct {
+	name              string
+	vertexConstraints []vertexConstraints
+	hashIndexOptions  []ensureHashIndexOptions
+}
+
 func New(url string, database string, auth driver.Authentication) Driver {
 	return Driver{
 		url:          url,
@@ -69,11 +80,133 @@ func (d *Driver) NewObjectDriver(objectType object.Object) (object.Driver, error
 	}
 
 	return &ObjectDriver{
-		ctx:           d.Ctx,
-		collection:    collection,
+		Ctx:           d.Ctx,
+		Collection:    collection,
 		wrappedType:   objectType,
 		wrappedObject: objectAsMap,
 	}, err
+}
+
+func (d *Driver) createCollections() {
+	collections := []collectionOptions{
+		{
+			"users",
+			[]ensureHashIndexOptions{
+				{
+					[]string{"username"},
+					driver.EnsureHashIndexOptions{
+						Unique: true,
+						Name:   "username_uniqueness",
+					},
+				},
+				{
+					[]string{"email"},
+					driver.EnsureHashIndexOptions{
+						Unique: true,
+						Name:   "email_uniqueness",
+					},
+				},
+			},
+		},
+		{
+			"photos",
+			[]ensureHashIndexOptions{},
+		},
+	}
+	db := *d.database
+	for _, collectionOption := range collections {
+		exists, err := db.CollectionExists(d.Ctx, collectionOption.name)
+		if err != nil {
+			slog.Error(err)
+			continue
+		}
+		if exists {
+			slog.Info("Found Collection", collectionOption.name)
+			continue
+		}
+
+		slog.Info("Creating Collection", collectionOption.name)
+		collection, err := db.CreateCollection(d.Ctx, collectionOption.name, nil)
+		if err != nil {
+			slog.Error(err)
+			continue
+		}
+		for _, options := range collectionOption.hashIndexOptions {
+			_, _, err = collection.EnsureHashIndex(d.Ctx, options.fields, &options.options)
+			if err != nil {
+				slog.Error(err)
+				continue
+			}
+		}
+	}
+}
+
+func (d *Driver) createGraphs() {
+	graphs := []graphOptions{
+		{
+			"user_photos",
+			[]vertexConstraints{
+				{
+					"user_photos",
+					driver.VertexConstraints{
+						From: []string{"users"},
+						To:   []string{"photos"},
+					},
+				},
+			},
+			[]ensureHashIndexOptions{
+				{
+					[]string{"Index"},
+					driver.EnsureHashIndexOptions{
+						Unique: true,
+						Name:   "index_uniqueness",
+					},
+				},
+			},
+		},
+		{
+			"user_users",
+			[]vertexConstraints{
+				{
+					"user_users",
+					driver.VertexConstraints{
+						From: []string{"users"},
+						To:   []string{"users"},
+					},
+				},
+			},
+			[]ensureHashIndexOptions{},
+		},
+	}
+
+	db := *d.database
+	for _, graphOption := range graphs {
+		exists, err := db.GraphExists(d.Ctx, graphOption.name)
+		if err != nil {
+			slog.Error(err)
+			continue
+		}
+		if exists {
+			slog.Info("Found graph", graphOption.name)
+			continue
+		}
+
+		slog.Info("Creating graph", graphOption.name)
+		graph, err := db.CreateGraphV2(d.Ctx, graphOption.name, nil)
+		if err != nil {
+			slog.Error(err)
+			continue
+		}
+
+		for _, vertexConstraint := range graphOption.vertexConstraints {
+			_, err := graph.CreateEdgeCollection(d.Ctx, vertexConstraint.name, vertexConstraint.vertexConstraints)
+			if err != nil {
+				slog.Error(err)
+				continue
+			}
+		}
+
+	}
 }
 
 func (d *Driver) Database() (*driver.Database, error) {
@@ -102,56 +235,11 @@ func (d *Driver) Database() (*driver.Database, error) {
 		}
 	}
 
-	collections := []collectionOptions{
-		{
-			"users",
-			[]ensureHashIndexOptions{
-				{
-					[]string{"username"},
-					driver.EnsureHashIndexOptions{
-						Unique: true,
-						Name:   "username_uniqueness",
-					},
-				},
-				{
-					[]string{"email"},
-					driver.EnsureHashIndexOptions{
-						Unique: true,
-						Name:   "email_uniqueness",
-					},
-				},
-			},
-		},
-	}
-	var retErr error = nil
-	for _, collectionOption := range collections {
-		exists, err := db.CollectionExists(d.Ctx, collectionOption.name)
-		if err != nil {
-			retErr = err
-			continue
-		}
-		if exists {
-			slog.Info("Found collection", collectionOption.name)
-			continue
-		}
-
-		slog.Info("Creating collection", collectionOption.name)
-		collection, err := db.CreateCollection(d.Ctx, collectionOption.name, nil)
-		if err != nil {
-			retErr = err
-			continue
-		}
-		for _, options := range collectionOption.hashIndexOptions {
-			_, _, err = collection.EnsureHashIndex(d.Ctx, options.fields, &options.options)
-			if err != nil {
-				retErr = err
-				continue
-			}
-		}
-	}
-
 	d.database = &db
-	return d.database, retErr
+	d.createCollections()
+	d.createGraphs()
+
+	return d.database, nil
 }
 
 func (d *Driver) Collection(name string) (driver.Collection, error) {
