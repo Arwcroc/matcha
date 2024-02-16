@@ -9,6 +9,7 @@ import (
 	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/routes/auth"
 	"matcha/backend/pkg/routes/photo"
+	"matcha/backend/pkg/routes/relationship"
 	"matcha/backend/pkg/routes/user"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store/memory"
@@ -62,6 +63,7 @@ func main() {
 	auth.Register(app)
 	user.Register(app)
 	photo.Register(app)
+	relationship.Register(app)
 
 	go startServer(app, conf.bindAddress)
 	slog.Info("Press Ctrl-c to shut down")
