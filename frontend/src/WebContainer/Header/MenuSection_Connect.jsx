@@ -137,7 +137,9 @@ const PopUp_Message = () => {
 		<>
 			<Box className="App__WebContainer__Header__MessagePopUp">
 				<Box className="App__WebContainer__Header__MessagePopUp__GuysSection">
-					partie gens
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__Title">Chat
+						<Box>Recherche</Box>
+					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
 					partie message
@@ -221,11 +223,6 @@ const MenuSection_Connect = () => {
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const listOpen = Boolean(anchorEl);
-
-	const customPaperStyle = {
-		maxWidth: '800px', // Définissez la max-width souhaitée
-		// Vous pouvez également définir d'autres styles ici
-	};
 
 	const handleClick = (event) => {
 	  setAnchorEl(event.currentTarget);

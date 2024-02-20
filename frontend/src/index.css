@@ -67,8 +67,9 @@ code {
 }
 
 .App__WebContainer__Header__MenuSection__Avatar {
-	margin-top: -9px;
-	margin-right: 10px; 
+	/* margin-top: -9px;
+	margin-right: 10px;  */
+	display: flex;
 }
 
 .App__WebContainer__Header__MenuSection__Dialog {
@@ -252,10 +253,13 @@ code {
 
 
 
+
+
+
+
 .App__WebContainer__Header__MenuSection__MessagePopUp {
 	width: 90%;
 }
-
 
 .App__WebContainer__Header__MessagePopUp {
 	/* display: flex;
@@ -267,7 +271,7 @@ code {
 	width: 500px;
 	/* border: 1px solid #ccc; */
 	/* background: #e4e3e3; */
-	border-radius: 8px;
+	/* border-radius: 8px; */
 	overflow: hidden;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -276,11 +280,12 @@ code {
 	width: 30%;
 	/*height: 550px; */
 	display: flex;
-	border-radius: 25px;
+	/* border-radius: 0px 25px 25px 0px; */
 	padding: 10px;
 	overflow-y: auto;
-	max-height: 200px;
-	background-color: rgba(150, 150, 150, 0.253);
+	height: 600px;
+	color: white;
+	background-color: rgba(0, 102, 255, 0.829);
 }
 
 .App__WebContainer__Header__MessagePopUp__MessageSection {
@@ -291,7 +296,7 @@ code {
 	padding: 10px;
 	width: 65%;
 	/*height: 550px; */
-	border-radius: 25px;
+	/* border-radius: 25px; */
 	background-color: rgba(150, 150, 150, 0.253);
 }
 
@@ -343,7 +348,7 @@ code {
 
 
 .App__WebContainer__Header__MenuSection__MenuIcon {
-	margin-top: 25px;
+	margin-top: 16px;
 	margin-right: 13px;;
 }
 
