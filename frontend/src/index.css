@@ -252,33 +252,47 @@ code {
 
 
 
-
-
-
 .App__WebContainer__Header__MenuSection__MessagePopUp {
-	display: flex;
-	flex-direction: column;
+	width: 90%;
+}
+
+
+.App__WebContainer__Header__MessagePopUp {
+	/* display: flex;
 	width: 500px;
 	height: 80%;
-	background-color: rebeccapurple;
+	background-color: rebeccapurple; */
+	display: flex;
+	flex-direction: row;
+	width: 500px;
+	/* border: 1px solid #ccc; */
+	/* background: #e4e3e3; */
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection {
-	/* display: flex;
-	flex-direction: column; */
-	width: 40%;
-	height: 550px;
+	width: 30%;
+	/*height: 550px; */
+	display: flex;
 	border-radius: 25px;
-	background-color: rgba(223, 223, 223, 0.253);
+	padding: 10px;
+	overflow-y: auto;
+	max-height: 200px;
+	background-color: rgba(150, 150, 150, 0.253);
 }
 
 .App__WebContainer__Header__MessagePopUp__MessageSection {
 	/* display: flex;
 	flex-direction: column; */
-	width: 40%;
-	height: 550px;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	width: 65%;
+	/*height: 550px; */
 	border-radius: 25px;
-	background-color: rgba(223, 223, 223, 0.253);
+	background-color: rgba(150, 150, 150, 0.253);
 }
 
 .App__WebContainer__Header__MessagePopUp__Name {
