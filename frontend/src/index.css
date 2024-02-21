@@ -280,6 +280,7 @@ code {
 	width: 30%;
 	/*height: 550px; */
 	display: flex;
+	flex-direction: column;
 	/* border-radius: 0px 25px 25px 0px; */
 	padding: 10px;
 	overflow-y: auto;
@@ -292,7 +293,7 @@ code {
 	/* display: flex;
 	flex-direction: column; */
 	display: flex;
-	align-items: center;
+	/* align-items: center; */
 	padding: 10px;
 	width: 65%;
 	/*height: 550px; */

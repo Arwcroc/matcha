@@ -39,6 +39,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
+import Avatar from '@mui/material/Avatar';
+
 const SlideBox = () => {
 	return (
 		<CarouselProvider
@@ -140,9 +142,17 @@ const PopUp_Message = () => {
 					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__Title">Chat
 						<Box>Recherche</Box>
 					</Box>
+					<Box>
+						<Avatar>A</Avatar>
+						<Typography>Anne - 34</Typography>
+					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
-					partie message
+					<Box>
+						<Typography>Nom</Typography>
+						<Typography>Info</Typography>
+					</Box>
+					<Box></Box>
 				</Box>
 			</Box>
 		</>
