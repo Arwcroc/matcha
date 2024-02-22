@@ -40,6 +40,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
 import Avatar from '@mui/material/Avatar';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SlideBox = () => {
 	return (
@@ -139,8 +140,10 @@ const PopUp_Message = () => {
 		<>
 			<Box className="App__WebContainer__Header__MessagePopUp">
 				<Box className="App__WebContainer__Header__MessagePopUp__GuysSection">
-					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__Title">Chat
-						<Box>Recherche</Box>
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__Title">Chat</Box>
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox">
+						<SearchIcon className="App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon"/>
+						<input className="App__WebContainer__Header__MessagePopUp__GuysSection__Search" placeholder="Search" type="text"/>
 					</Box>
 					<Box>
 						<Avatar>A</Avatar>

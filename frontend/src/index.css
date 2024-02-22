@@ -301,12 +301,53 @@ code {
 	background-color: rgba(150, 150, 150, 0.253);
 }
 
-.App__WebContainer__Header__MessagePopUp__Name {
 
+.App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox {
+	position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #00000033;
+	margin-bottom: 16px;
 }
 
-.App__WebContainer__Header__MessagePopUp__LastName {
+.App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon {
+	width: 32px;
+    display: flex;
+    justify-content: center;
+}
 
+.App__WebContainer__Header__MessagePopUp__GuysSection__Search {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	background: rgba(255, 255, 255, 0.2);
+	width: 95%;
+}
+/* 
+.App__WebContainer__Header__MessagePopUp__GuysSection__SearchText {
+	background: none;
+	border: none;
+	color: #fff;
+	font-family: Helvetica Neue, sans-serif;
+	font-size: 16px;
+	outline: none;
+} */
+
+.App__WebContainer__Header__MessagePopUp__GuysSection__Title {
+    display: flex;
+	justify-content: center;
+	font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 28px;
+    color: #ffffff;
+	margin-bottom: 5%;
 }
 
 .App__WebContainer__Header__MessagePopUp__Age {
