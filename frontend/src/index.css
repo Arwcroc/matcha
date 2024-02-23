@@ -292,13 +292,13 @@ code {
 .App__WebContainer__Header__MessagePopUp__MessageSection {
 	/* display: flex;
 	flex-direction: column; */
-	display: flex;
 	/* align-items: center; */
-	padding: 10px;
-	width: 65%;
 	/*height: 550px; */
 	/* border-radius: 25px; */
-	background-color: rgba(150, 150, 150, 0.253);
+	/* display: flex; */
+	padding: 10px;
+	width: 65%;
+	background-color: rgba(150, 150, 150, 0.3);
 }
 
 
@@ -316,7 +316,7 @@ code {
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox:hover {
-	background-color: rgba(255, 255, 255, 0.562);
+	background-color: rgba(255, 255, 255, 0.6);
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon {
@@ -361,6 +361,8 @@ code {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	/* justify-content: space-evenly; */
+	margin-bottom: 5%;
 	/* margin-left: 5%; */
 }
 
@@ -373,20 +375,58 @@ code {
 	margin-left: 10%;
 }
 
-.App__WebContainer__Header__MessagePopUp__Score {
-
+.App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo {
+	display: flex;
+	margin-left: 2%;
+	font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 28px;
+    color: #686868;
+	margin-bottom: 2.5%;
 }
 
-.App__WebContainer__Header__MessagePopUp__Gender {
-
+.App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage {
+	height: 80%;
+	background-color: rgba(255, 255, 255, 0.452);
+	border: 1px solid rgba(255, 255, 255, 0.705);
+	border-radius: 8px;
+	margin-top: 2%;
+	width: 97%;
+	padding: 1%;
 }
 
-.App__WebContainer__Header__MessagePopUp__SexualInterest {
-
+.App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone {
+	height: 6%;
+	background-color: rgba(255, 255, 255, 0.452);
+	border: 1px solid rgba(255, 255, 255, 0.705);
+	border-radius: 8px;
+	margin-top: 4%;
+	padding: 1%;
+	width: 97%;
+	display: flex;
+	/* align-items: center; */
+	position: relative;
 }
 
-.App__WebContainer__Header__MessagePopUp__Place {
+.App__WebContainer__Header__MessagePopUp__MessageSection__InputType {
+	width: 89%;
+	position: relative;
+	outline: transparent;
+	background: transparent;
+	border: none;
+	resize: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: medium;
+}
 
+
+.App__WebContainer__Header__MessagePopUp__MessageSection__SendIcon {
+	top: 3px;
+	right: 3px;
+	position: absolute;
+	color: rgba(0, 102, 255, 0.829);
 }
 
 .App__WebContainer__Header__MessagePopUp__Bio {

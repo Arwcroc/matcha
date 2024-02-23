@@ -42,6 +42,7 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
+import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
 
 const SlideBox = () => {
 	return (
@@ -158,15 +159,27 @@ const PopUp_Message = () => {
 								A
 							</Avatar>
 						</Badge>		
-						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Anne - 34</p>
+						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Anne</p>
+					</Box>
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox">
+						<Badge color="error" overlap="circular" badgeContent=" " variant="dot">
+							<Avatar className="App__WebContainer__Header__MessagePopUp__GuysSection__UserPics" src={Donna}>
+								A
+							</Avatar>
+						</Badge>		
+						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Sandrine</p>
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
-					<Box>
-						<Typography>Nom</Typography>
-						<Typography>Info</Typography>
+					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">Anne</Box>
+					<Divider/>
+					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage">
+						messages des gens
 					</Box>
-					<Box></Box>
+					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone">
+						<textarea className="App__WebContainer__Header__MessagePopUp__MessageSection__InputType"/>
+						<ArrowCircleUpRoundedIcon className="App__WebContainer__Header__MessagePopUp__MessageSection__SendIcon"/>
+					</Box>
 				</Box>
 			</Box>
 		</>
