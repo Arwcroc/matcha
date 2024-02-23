@@ -303,19 +303,34 @@ code {
 
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox {
-	position: relative;
+    margin-top: 16px;
+    /* border-top: 1px solid #00000033; */
+	margin-bottom: 32px;
     display: flex;
-    justify-content: center;
+	position: relative;
     align-items: center;
-    padding-top: 16px;
-    border-top: 1px solid #00000033;
-	margin-bottom: 16px;
+	border-radius: 8px;
+	background-color: rgba(156, 156, 156, 0.2);
+	width: 100%;
+	margin-left: 0;
+}
+
+.App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox:hover {
+	background-color: rgba(255, 255, 255, 0.562);
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon {
-	width: 32px;
+	/* width: 32px;
     display: flex;
-    justify-content: center;
+    justify-content: center; */
+	/* padding: theme.spacing(0, 2); */
+	padding: 2%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* pointerEvents: 'none'; */
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__Search {
@@ -327,16 +342,8 @@ code {
 	border: 1px solid transparent;
 	background: rgba(255, 255, 255, 0.2);
 	width: 95%;
+	padding-left: 20%;
 }
-/* 
-.App__WebContainer__Header__MessagePopUp__GuysSection__SearchText {
-	background: none;
-	border: none;
-	color: #fff;
-	font-family: Helvetica Neue, sans-serif;
-	font-size: 16px;
-	outline: none;
-} */
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__Title {
     display: flex;
@@ -350,8 +357,20 @@ code {
 	margin-bottom: 5%;
 }
 
-.App__WebContainer__Header__MessagePopUp__Age {
+.App__WebContainer__Header__MessagePopUp__GuysSection__UserBox {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	/* margin-left: 5%; */
+}
 
+.App__WebContainer__Header__MessagePopUp__GuysSection__UserBox:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 40px;
+}
+
+.App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo {
+	margin-left: 10%;
 }
 
 .App__WebContainer__Header__MessagePopUp__Score {

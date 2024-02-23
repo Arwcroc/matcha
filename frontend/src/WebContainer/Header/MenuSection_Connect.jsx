@@ -41,6 +41,7 @@ import Stack from '@mui/material/Stack';
 
 import Avatar from '@mui/material/Avatar';
 import SearchIcon from '@mui/icons-material/Search';
+import Badge from '@mui/material/Badge';
 
 const SlideBox = () => {
 	return (
@@ -135,19 +136,29 @@ const PopUp_Profile = () => {
 	);
 }
 
+// const shapeCircleStyles = { borderRadius: '50%' };
+// const circle = (
+//   <Box component="span" sx={{ ...shapeStyles, ...shapeCircleStyles }} />
+// );
+
 const PopUp_Message = () => {
 	return (
 		<>
 			<Box className="App__WebContainer__Header__MessagePopUp">
 				<Box className="App__WebContainer__Header__MessagePopUp__GuysSection">
 					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__Title">Chat</Box>
+					<Divider/>
 					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__SearchBox">
 						<SearchIcon className="App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon"/>
-						<input className="App__WebContainer__Header__MessagePopUp__GuysSection__Search" placeholder="Search" type="text"/>
+						<input className="App__WebContainer__Header__MessagePopUp__GuysSection__Search" placeholder="Search..." type="text"/>
 					</Box>
-					<Box>
-						<Avatar>A</Avatar>
-						<Typography>Anne - 34</Typography>
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox">
+						<Badge color="success" overlap="circular" badgeContent=" " variant="dot">
+							<Avatar className="App__WebContainer__Header__MessagePopUp__GuysSection__UserPics" src={Meuh}>
+								A
+							</Avatar>
+						</Badge>		
+						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Anne - 34</p>
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
