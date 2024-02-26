@@ -22,11 +22,11 @@ const SlideBox = () => {
 			<DotGroup className="App__WebContainer__Website__Main__PrimaryCard__Carousel__DotGroup" />
 			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
 			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
-				<Slide index={0}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
-				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
-				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
-				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
-				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
+				<Slide index={0}><div className="slide__image__container"><img className="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
+				<Slide index={1}><div className="slide__image__container"><img className="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
+				<Slide index={2}><div className="slide__image__container"><img className="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
+				<Slide index={3}><div className="slide__image__container"><img className="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
+				<Slide index={4}><div className="slide__image__container"><img className="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
 			</Slider>
 			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
 		</CarouselProvider>

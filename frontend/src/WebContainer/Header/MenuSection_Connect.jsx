@@ -56,11 +56,11 @@ const SlideBox = () => {
 			<DotGroup className="App__WebContainer__Website__Main__PrimaryCard__Carousel__DotGroup" />
 			<ButtonBack className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Back">{"<"}</ButtonBack>
 			<Slider className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Pics">
-				<Slide index={0}><div class="slide__image__container"><img class="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
-				<Slide index={1}><div class="slide__image__container"><img class="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
-				<Slide index={2}><div class="slide__image__container"><img class="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
-				<Slide index={3}><div class="slide__image__container"><img class="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
-				<Slide index={4}><div class="slide__image__container"><img class="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
+				<Slide index={0}><div className="slide__image__container"><img className="slide__image__prout" src={Portrait} alt="Slide 1"/></div></Slide>
+				<Slide index={1}><div className="slide__image__container"><img className="slide__image__prout" src={GirlPort} alt="Slide 2"/></div></Slide>
+				<Slide index={2}><div className="slide__image__container"><img className="slide__image__prout" src={Meuh} alt="Slide 3"/></div></Slide>
+				<Slide index={3}><div className="slide__image__container"><img className="slide__image__prout" src={Ermine} alt="Slide 4"/></div></Slide>
+				<Slide index={4}><div className="slide__image__container"><img className="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
 			</Slider>
 			<Typography className="App__WebContainer__Header__ProfilePopUp__NameAge" fontSize={"24px"}>Sandrine, 14</Typography>
 			<Typography className="App__WebContainer__Header__ProfilePopUp__Place" fontSize={"14px"}>Saint-Etienne</Typography>
@@ -137,10 +137,10 @@ const PopUp_Profile = () => {
 	);
 }
 
-// const shapeCircleStyles = { borderRadius: '50%' };
-// const circle = (
-//   <Box component="span" sx={{ ...shapeStyles, ...shapeCircleStyles }} />
-// );
+function textAreaAdjust(element) {
+	element.style.height = "1px";
+	element.style.height = (25+element.scrollHeight)+"px";
+  }
 
 const PopUp_Message = () => {
 	return (
@@ -174,10 +174,11 @@ const PopUp_Message = () => {
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">Anne</Box>
 					<Divider/>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage">
-						messages des gens
+						<textarea readOnly className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn">message indfghvbbnvbnvbncvbncvbncvbbncvbcnghdfgh</textarea>
+						<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgOut">message out</Box>
 					</Box>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone">
-						<textarea className="App__WebContainer__Header__MessagePopUp__MessageSection__InputType"/>
+						<textarea onkeyup="textAreaAdjust(this)" className="App__WebContainer__Header__MessagePopUp__MessageSection__InputType"/>
 						<ArrowCircleUpRoundedIcon className="App__WebContainer__Header__MessagePopUp__MessageSection__SendIcon"/>
 					</Box>
 				</Box>

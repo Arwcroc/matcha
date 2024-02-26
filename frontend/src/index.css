@@ -361,9 +361,7 @@ code {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	/* justify-content: space-evenly; */
 	margin-bottom: 5%;
-	/* margin-left: 5%; */
 }
 
 .App__WebContainer__Header__MessagePopUp__GuysSection__UserBox:hover {
@@ -395,6 +393,8 @@ code {
 	margin-top: 2%;
 	width: 97%;
 	padding: 1%;
+	display: flex;
+	flex-direction: column;
 }
 
 .App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone {
@@ -429,12 +429,34 @@ code {
 	color: rgba(0, 102, 255, 0.829);
 }
 
-.App__WebContainer__Header__MessagePopUp__Bio {
-
+.App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn {
+	/* display: flex;
+	align-items: center;
+	border-radius: 8px;
+	background-color: rgba(0, 102, 255, 0.7);
+	width: 40%;
+	padding: 1%;
+	outline: transparent;
+	border: none;
+	resize: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: medium;
+	overflow-wrap: break-word; */
+	border-radius: 5px;
+	display: inline-block;
+	padding: 10px 18px;
+	position: relative;
+	margin: 10px;
+	max-width: 80%;
 }
 
-.App__WebContainer__Header__MessagePopUp__Tags {
-
+.App__WebContainer__Header__MessagePopUp__MessageSection__MsgOut {
+	display: flex;
+	align-items: center;
+	border-radius: 8px;
+	background-color: rgba(211, 211, 211, 0.7);
+	width: 40%;
+	padding: 1%;
 }
 
 .App__WebContainer__Header__MessagePopUp__Pics {
