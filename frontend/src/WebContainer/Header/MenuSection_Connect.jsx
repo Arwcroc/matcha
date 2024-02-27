@@ -137,11 +137,6 @@ const PopUp_Profile = () => {
 	);
 }
 
-function textAreaAdjust(element) {
-	element.style.height = "1px";
-	element.style.height = (25+element.scrollHeight)+"px";
-  }
-
 const PopUp_Message = () => {
 	return (
 		<>
@@ -174,7 +169,7 @@ const PopUp_Message = () => {
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">Anne</Box>
 					<Divider/>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage">
-						<textarea readOnly className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn">message indfghvbbnvbnvbncvbncvbncvbbncvbcnghdfgh</textarea>
+						<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn">message in and its for the fame you know, like when taylor swift take the biggest airplane to go to take the break, the oui oui baguette </Box>
 						<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgOut">message out</Box>
 					</Box>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone">
@@ -190,20 +185,8 @@ const PopUp_Message = () => {
 const PopUp_Setting = () => {
 	return (
 		<>
-			<Box className="App__WebContainer__Header__PopUp">
-				<Box className="App__WebContainer__Header__PopUp__Name">
-					Login
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__PassMail">
-					<TextField id="email" label="Email" variant="standard" className="App__WebContainer__Header__PopUp__Email"/>
-					<TextField id="password" label="Password" variant="standard" className="App__WebContainer__Header__PopUp__Password"/>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__UsualAsk">
-					<FormControlLabel control={<Checkbox />} label="Remember me" />
-					<Box className="App__WebContainer__Header__PopUp__UsualAsk__Forgot">Forgot Password ?</Box>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__Validate">Login</Box>
-				<Box className="App__WebContainer__Header__PopUp__CreateAccount">Click here to create an account !</Box>
+			<Box className="App__WebContainer__Header__SettingPopUp">
+				
 			</Box>
 		</>
 	);
@@ -397,12 +380,12 @@ const MenuSection_Connect = () => {
 						<PopUp_Message />
 					</Box>
 				</Dialog>
-				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)}>
-					<DialogContent className="App__WebContainer__Header__MenuSection__Dialog">
-						<PopUp_Login />
+				<Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+					<DialogContent sx={{'.MuiDialogContent-root': {padding: 0,},}} className="App__WebContainer__Header__MenuSection__SettingPopUp">
+						<PopUp_Setting />
 					</DialogContent>
 				</Dialog>
-				<Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)}>
 					<DialogContent className="App__WebContainer__Header__MenuSection__Dialog">
 						<PopUp_Login />
 					</DialogContent>

@@ -406,7 +406,6 @@ code {
 	padding: 1%;
 	width: 97%;
 	display: flex;
-	/* align-items: center; */
 	position: relative;
 }
 
@@ -430,40 +429,130 @@ code {
 }
 
 .App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn {
-	/* display: flex;
+	display: flex;
 	align-items: center;
 	border-radius: 8px;
-	background-color: rgba(0, 102, 255, 0.7);
-	width: 40%;
-	padding: 1%;
+	background-color: rgba(174, 185, 204, 0.8);
+	padding: 2%;
+	margin-bottom: 1%;
 	outline: transparent;
 	border: none;
-	resize: none;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: medium;
-	overflow-wrap: break-word; */
-	border-radius: 5px;
-	display: inline-block;
-	padding: 10px 18px;
-	position: relative;
-	margin: 10px;
+	overflow-wrap: break-word;
 	max-width: 80%;
+	max-height: none;
+	width: fit-content;
+	height: fit-content;
 }
 
 .App__WebContainer__Header__MessagePopUp__MessageSection__MsgOut {
 	display: flex;
-	align-items: center;
 	border-radius: 8px;
-	background-color: rgba(211, 211, 211, 0.7);
+	color: white;
+	background-color: rgba(0, 102, 255, 0.8);
 	width: 40%;
-	padding: 1%;
+	padding: 2%;
+	margin-bottom: 1%;
+	outline: transparent;
+	border: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: medium;
+	overflow-wrap: break-word;
+	max-width: 80%;
+	max-height: none;
+	width: fit-content;
+	height: fit-content;
+	margin-left: auto;
 }
 
-.App__WebContainer__Header__MessagePopUp__Pics {
+
+
+
+
+
+
+.App__WebContainer__Header__MenuSection__SettingPopUp {
+	width: 500px;
+	height: 500px;
+	border: 2px solid rgb(136, 136, 136);
+	border-radius: 8px;
+}
+
+.App__WebContainer__Header__SettingPopUp {
+	width: 100%;
+	height: 100%;
+	background-color: red;
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
 
 }
 
 
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
+
+.App__WebContainer__Header__SettingPopUp {
+
+}
 
 
 
