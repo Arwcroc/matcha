@@ -479,14 +479,23 @@ code {
 	border-radius: 8px;
 }
 
+
 .App__WebContainer__Header__SettingPopUp {
 	width: 100%;
 	height: 100%;
-	background-color: red;
 }
 
-.App__WebContainer__Header__SettingPopUp {
-
+.App__WebContainer__Header__SettingPopUp_Title {
+	width: 98%;
+	height: 50px;
+	background-color: rgb(240, 201, 142);
+	position: sticky;
+	top: 0px;
+	font-size: 30px;
+	color: white;
+	display: flex;
+	align-items: center;
+	padding-left: 2%;
 }
 
 .App__WebContainer__Header__SettingPopUp {

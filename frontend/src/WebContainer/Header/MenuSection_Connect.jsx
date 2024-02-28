@@ -186,6 +186,9 @@ const PopUp_Setting = () => {
 	return (
 		<>
 			<Box className="App__WebContainer__Header__SettingPopUp">
+				<Box className="App__WebContainer__Header__SettingPopUp_Title">
+					Settings
+				</Box>
 				
 			</Box>
 		</>
@@ -380,8 +383,8 @@ const MenuSection_Connect = () => {
 						<PopUp_Message />
 					</Box>
 				</Dialog>
-				<Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)}>
-					<DialogContent sx={{'.MuiDialogContent-root': {padding: 0,},}} className="App__WebContainer__Header__MenuSection__SettingPopUp">
+				<Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)} sx={{'.MuiDialogContent-root': {padding: 0, borderRadius: "8px"},}} >
+					<DialogContent className="App__WebContainer__Header__MenuSection__SettingPopUp">
 						<PopUp_Setting />
 					</DialogContent>
 				</Dialog>
