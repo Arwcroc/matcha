@@ -189,7 +189,15 @@ const PopUp_Setting = () => {
 				<Box className="App__WebContainer__Header__SettingPopUp_Title">
 					Settings
 				</Box>
-				
+				<Box>
+					Name
+				</Box>
+				<Box>
+					Last Name
+				</Box>
+				<Box>
+					Gender
+				</Box>
 			</Box>
 		</>
 	);
