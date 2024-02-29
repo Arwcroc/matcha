@@ -189,14 +189,53 @@ const PopUp_Setting = () => {
 				<Box className="App__WebContainer__Header__SettingPopUp_Title">
 					Settings
 				</Box>
-				<Box>
-					Name
+				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+					Personnal Information
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Name
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Last Name
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Age
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Gender
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Sexual Interest
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Biography
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Picture
+					</Box>
 				</Box>
-				<Box>
-					Last Name
+				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+					Services
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Location
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Active Wi-Fi
+					</Box>
 				</Box>
-				<Box>
-					Gender
+				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+					Filter
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Age Gap
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Geographical Limit
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Interest Flag
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+						Fame Rating
+					</Box>
 				</Box>
 			</Box>
 		</>
