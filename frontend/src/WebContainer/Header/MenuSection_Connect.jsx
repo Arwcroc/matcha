@@ -1,5 +1,6 @@
 // import React from 'react';
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Logo from '../../Images/MenuSection/Urme-logo.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -182,6 +183,54 @@ const PopUp_Message = () => {
 	);
 }
 
+const Switch = () => {
+	const [isChecked, setChecked] = useState(false);
+  
+	const handleToggle = () => {
+	  setChecked(!isChecked);
+	};
+  
+	return (
+	  <label className="switch">
+		<input type="checkbox" checked={isChecked} onChange={handleToggle} />
+		<span className="slider"></span>
+	  </label>
+	);
+};
+
+const getPosition = (state) => {
+	switch (state) {
+	  case 'Homme':
+		return 0;
+	  case 'Autre':
+		return 90;
+	  case 'Femme':
+		return 180;
+	  default:
+		return 0;
+	}
+  };
+
+
+  const ThreeStateToggleSwitch = () => {
+	const [toggleState, setToggleState] = useState('Homme');
+  
+	const handleToggle = (newState) => {
+	  setToggleState(newState);
+	};
+  
+	return (
+	  <div className="toggle-switch">
+		<div className="slider" style={{ transform: `translateX(${getPosition(toggleState)}px)` }}>
+		  {toggleState}
+		</div>
+		<div className="option homme" onClick={() => handleToggle('Homme')}>Homme</div>
+		<div className="option autre" onClick={() => handleToggle('Autre')}>Autre</div>
+		<div className="option femme" onClick={() => handleToggle('Femme')}>Femme</div>
+	  </div>
+	);
+  };
+  
 const PopUp_Setting = () => {
 	return (
 		<>
@@ -200,8 +249,10 @@ const PopUp_Setting = () => {
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Age
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__Gender">
 						Gender
+						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Choose a gender, yes you have the choice...</p>
+						<ThreeStateToggleSwitch/>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Sexual Interest
@@ -220,6 +271,7 @@ const PopUp_Setting = () => {
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Active Wi-Fi
+						<Switch />
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">

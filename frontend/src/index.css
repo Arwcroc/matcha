@@ -477,7 +477,6 @@ code {
 	height: 500px;
 	border: 2px solid rgb(136, 136, 136);
 	border-radius: 8px;
-	overflow-y: scroll;
 }
 
 
@@ -485,6 +484,7 @@ code {
 	width: 100%;
 	height: 100%;
 	background-color: #ececec;
+	overflow-y: scroll;
 }
 
 .App__WebContainer__Header__SettingPopUp_Title {
@@ -513,15 +513,141 @@ code {
 
 
 .App__WebContainer__Header__SettingPopUp_SettingName {
+	display: flex;
 	width: 99%;
 	height: 30px;
-	/* min-height: 12px; */
 	background-color: white;
 	padding-left: 3%;
 	margin-top: 3%;
 	margin-left: -2%;
 	font-size: 12px;
+	align-items: center;
 }
+
+.App__WebContainer__Header__SettingPopUp_SettingNameGender {
+	display: flex;
+	width: 99%;
+	height: 30px;
+	background-color: white;
+	padding-left: 3%;
+	margin-top: 3%;
+	margin-left: -2%;
+	font-size: 12px;
+	align-items: center;
+}
+
+
+.App__WebContainer__Header__SettingPopUp_SettingName__Text {
+	font-size: 12px;
+}
+
+.toggle-switch {
+	display: flex;
+	width: 300px; /* Ajustez la largeur selon vos préférences */
+	height: 30px;
+	background-color: #ccc;
+	border-radius: 15px;
+	position: relative;
+	cursor: pointer;
+  }
+  
+  .slider {
+	width: 120px; /* Ajustez la largeur selon vos préférences */
+	height: 30px;
+	background-color: #fff;
+	border-radius: 15px; /* Ajustez la bordure pour obtenir une forme similaire */
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: #333;
+	transition: transform 0.3s ease-in-out;
+  }
+  
+  .option {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+  }
+  .homme {
+	background-color: #3498db; /* Couleur pour l'option "Homme" */
+	border-radius: 15px 0px 0px 15px;
+
+  }
+  
+  .autre {
+	background-color: #ab28df; /* Couleur pour l'option "Autre" */
+  }
+  
+  .femme {
+	background-color: #e73ccb; /* Couleur pour l'option "Femme" */
+	border-radius: 0px 15px 15px 0px;
+  }
+  
+/* .switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+  }
+  
+  .switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+  }
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: 0.4s;
+	border-radius: 34px;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: '';
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+	background-color: #2196F3;
+  }
+  
+  input:checked + .slider:before {
+	transform: translateX(26px);
+  } */
+  
+  /* Optional: Style adjustments for better visual representation */
+  /* .switch {
+	margin: 10px;
+  }
+  
+  .slider {
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .slider:before {
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  } */
 
 .App__WebContainer__Header__SettingPopUp {
 
