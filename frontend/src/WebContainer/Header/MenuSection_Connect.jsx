@@ -183,53 +183,67 @@ const PopUp_Message = () => {
 	);
 }
 
+// const Switch = () => {
+// 	const [isChecked, setChecked] = useState(false);
+  
+// 	const handleToggle = () => {
+// 	  setChecked(!isChecked);
+// 	};
+  
+// 	return (
+// 	  <label className="switch">
+// 		<input type="checkbox" checked={isChecked} onChange={handleToggle} />
+// 		<span className="slider"></span>
+// 	  </label>
+// 	);
+// };
+
 const Switch = () => {
-	const [isChecked, setChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(false);
   
-	const handleToggle = () => {
-	  setChecked(!isChecked);
+	const toggleSwitch = () => {
+	  setIsChecked(!isChecked);
 	};
   
 	return (
-	  <label className="switch">
-		<input type="checkbox" checked={isChecked} onChange={handleToggle} />
-		<span className="slider"></span>
-	  </label>
-	);
-};
-
-const getPosition = (state) => {
-	switch (state) {
-	  case 'Homme':
-		return 0;
-	  case 'Autre':
-		return 90;
-	  case 'Femme':
-		return 180;
-	  default:
-		return 0;
-	}
-  };
-
-
-  const ThreeStateToggleSwitch = () => {
-	const [toggleState, setToggleState] = useState('Homme');
-  
-	const handleToggle = (newState) => {
-	  setToggleState(newState);
-	};
-  
-	return (
-	  <div className="toggle-switch">
-		<div className="slider" style={{ transform: `translateX(${getPosition(toggleState)}px)` }}>
-		  {toggleState}
-		</div>
-		<div className="option homme" onClick={() => handleToggle('Homme')}>Homme</div>
-		<div className="option autre" onClick={() => handleToggle('Autre')}>Autre</div>
-		<div className="option femme" onClick={() => handleToggle('Femme')}>Femme</div>
+	  <div className={`switch ${isChecked ? 'on' : 'off'}`} onClick={toggleSwitch}>
+		<div className={`slider ${isChecked ? 'on' : 'off'}`}></div>
 	  </div>
 	);
   };
+
+const getPosition = (state) => {
+	switch (state) {
+		case 'Homme':
+			return 0;
+		case 'Autre':
+			return 90;
+		case 'Femme':
+			return 180;
+		default:
+			return 0;
+	}
+};
+
+
+const ThreeStateToggleSwitch = () => {
+	const [toggleState, setToggleState] = useState('Homme');
+
+	const handleToggle = (newState) => {
+		setToggleState(newState);
+	};
+  
+	return (
+		<div className="SettingPopUp__TriToggleSwitch">
+			<div className="SettingPopUp__TriToggleSwitch__Slider" style={{ transform: `translateX(${getPosition(toggleState)}px)` }}>
+			  {toggleState}
+			</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Homme" onClick={() => handleToggle('Homme')}>Homme</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Autre" onClick={() => handleToggle('Autre')}>Autre</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Femme" onClick={() => handleToggle('Femme')}>Femme</div>
+		</div>
+	);
+};
   
 const PopUp_Setting = () => {
 	return (
@@ -249,7 +263,7 @@ const PopUp_Setting = () => {
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Age
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__Gender">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
 						Gender
 						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Choose a gender, yes you have the choice...</p>
 						<ThreeStateToggleSwitch/>
@@ -266,11 +280,18 @@ const PopUp_Setting = () => {
 				</Box>
 				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
 					Services
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
-						Location
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName Switch">
+						<Box>
+							Location
+							<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Make your location great again</p>
+						</Box>
+						<Switch />
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
-						Active Wi-Fi
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName Switch">
+						<Box>
+							Active Wi-Fi
+							<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Enable your Wi-Fi</p>
+						</Box>
 						<Switch />
 					</Box>
 				</Box>

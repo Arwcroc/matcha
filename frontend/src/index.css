@@ -499,6 +499,7 @@ code {
 	display: flex;
 	align-items: center;
 	padding-left: 2%;
+	z-index: 3;
 }
 
 .App__WebContainer__Header__SettingPopUp_BoxTitle {
@@ -521,41 +522,45 @@ code {
 	margin-top: 3%;
 	margin-left: -2%;
 	font-size: 12px;
-	align-items: center;
 }
 
-.App__WebContainer__Header__SettingPopUp_SettingNameGender {
-	display: flex;
-	width: 99%;
-	height: 30px;
-	background-color: white;
-	padding-left: 3%;
-	margin-top: 3%;
-	margin-left: -2%;
-	font-size: 12px;
-	align-items: center;
+.TriSwitch {
+	flex-direction: column;
+	height: fit-content;
+	padding-bottom: 1%;
+	padding-top: 1%;
+}
+
+.Switch {
+	height: fit-content;
+	padding-bottom: 1%;
+	padding-top: 1%;
 }
 
 
 .App__WebContainer__Header__SettingPopUp_SettingName__Text {
 	font-size: 12px;
+	font-weight: lighter;
+	font-style: italic;
 }
 
-.toggle-switch {
+.SettingPopUp__TriToggleSwitch {
+	margin-left: 15%;
 	display: flex;
-	width: 300px; /* Ajustez la largeur selon vos préférences */
+	width: 300px;
 	height: 30px;
 	background-color: #ccc;
+	border: 2px solid #333;
 	border-radius: 15px;
 	position: relative;
 	cursor: pointer;
-  }
+}
   
-  .slider {
-	width: 120px; /* Ajustez la largeur selon vos préférences */
+.SettingPopUp__TriToggleSwitch__Slider {
+	width: 120px;
 	height: 30px;
 	background-color: #fff;
-	border-radius: 15px; /* Ajustez la bordure pour obtenir une forme similaire */
+	border-radius: 13px;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -565,89 +570,60 @@ code {
 	font-weight: bold;
 	color: #333;
 	transition: transform 0.3s ease-in-out;
-  }
+}
   
-  .option {
+.SettingPopUp__TriToggleSwitch__Slider__Option {
 	flex: 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #333;
-  }
-  .homme {
-	background-color: #3498db; /* Couleur pour l'option "Homme" */
-	border-radius: 15px 0px 0px 15px;
+}
 
-  }
-  
-  .autre {
-	background-color: #ab28df; /* Couleur pour l'option "Autre" */
-  }
-  
-  .femme {
-	background-color: #e73ccb; /* Couleur pour l'option "Femme" */
+.Homme {
+	background-color: #3498db;
+	border-radius: 15px 0px 0px 15px;
+}
+
+.Autre {
+	background-color: #ab28df;
+}
+
+.Femme {
+	background-color: #e73ccb;
 	border-radius: 0px 15px 15px 0px;
-  }
-  
-/* .switch {
-	position: relative;
-	display: inline-block;
-	width: 60px;
-	height: 34px;
-  }
-  
-  .switch input {
-	opacity: 0;
-	width: 0;
-	height: 0;
-  }
-  
-  .slider {
-	position: absolute;
-	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+}
+
+.switch {
+	width: 40px;
+	height: 20px;
 	background-color: #ccc;
-	transition: 0.4s;
-	border-radius: 34px;
+	border-radius: 15px;
+	position: relative;
+	cursor: pointer;
+	margin-left: auto;
+	margin-right: 1%;
+	border: 1px solid grey
   }
   
-  .slider:before {
-	position: absolute;
-	content: '';
-	height: 26px;
-	width: 26px;
-	left: 4px;
-	bottom: 4px;
-	background-color: white;
-	transition: 0.4s;
+.slider {
+	width: 20px;
+	height: 20px;
+	background-color: #fff;
 	border-radius: 50%;
-  }
+	position: absolute;
+	transition: transform 0.3s;
+}
   
-  input:checked + .slider {
-	background-color: #2196F3;
-  }
+.switch.on {
+	background-color: #4CAF50;
+}
   
-  input:checked + .slider:before {
-	transform: translateX(26px);
-  } */
-  
-  /* Optional: Style adjustments for better visual representation */
-  /* .switch {
-	margin: 10px;
-  }
-  
-  .slider {
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  .slider:before {
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-  } */
+.slider.on {
+	transform: translateX(20px);
+}
 
 .App__WebContainer__Header__SettingPopUp {
 
