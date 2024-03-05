@@ -583,16 +583,16 @@ code {
 }
 
 .Homme {
-	background-color: #3498db;
+	background-color: #FF4500;
 	border-radius: 15px 0px 0px 15px;
 }
 
 .Autre {
-	background-color: #ab28df;
+	background-color: #FFA500;
 }
 
 .Femme {
-	background-color: #e73ccb;
+	background-color: #ffd000;
 	border-radius: 0px 15px 15px 0px;
 }
 
@@ -618,11 +618,32 @@ code {
 }
   
 .switch.on {
-	background-color: #4CAF50;
+	background-color: #FF4500;
 }
   
 .slider.on {
 	transform: translateX(20px);
+}
+
+.SettingPopUp__LimitSlider {
+	font-style: italic;
+	font-size: 12px;
+	font-weight: lighter;
+}
+  
+.SettingPopUp__LimitSlider__Valor {
+	display: flex;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	background: linear-gradient(to right, rgb(255, 230, 0), red);
+	outline: none;
+	border-radius: 14px;
+	height: 8px;
+}
+
+.SettingPopUp__LimitSlider__Valor::-moz-range-thumb {
+	background: rgb(255, 255, 255);
 }
 
 .App__WebContainer__Header__SettingPopUp {

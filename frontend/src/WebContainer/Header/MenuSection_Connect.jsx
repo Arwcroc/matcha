@@ -183,34 +183,60 @@ const PopUp_Message = () => {
 	);
 }
 
-// const Switch = () => {
-// 	const [isChecked, setChecked] = useState(false);
+const valueMapping = [
+	{ step: 0, label: 'Autour de moi' },
+	{ step: 1, label: '10km' },
+	{ step: 2, label: '15km' },
+	{ step: 3, label: '20km' },
+	{ step: 4, label: '30km' },
+	{ step: 5, label: '50km' },
+	{ step: 6, label: '75km' },
+	{ step: 7, label: '100km' },
+	{ step: 8, label: '150km' },
+	{ step: 9, label: '200km' },
+	{ step: 10, label: '250km' },
+	{ step: 11, label: '300km' },
+	{ step: 12, label: '400km' },
+	{ step: 13, label: '500km' },
+];
   
-// 	const handleToggle = () => {
-// 	  setChecked(!isChecked);
-// 	};
-  
-// 	return (
-// 	  <label className="switch">
-// 		<input type="checkbox" checked={isChecked} onChange={handleToggle} />
-// 		<span className="slider"></span>
-// 	  </label>
-// 	);
-// };
+const LimitSlider = () => {
+	const [value, setValue] = useState(0);
+
+	const handleChange = (event) => {
+		const newValue = parseInt(event.target.value, 10);
+		setValue(newValue);
+	};
+
+	return (
+		<div className="SettingPopUp__LimitSlider">
+			<p>Distance : {valueMapping[value].label}</p>
+			<input
+				type="range"
+				min="0"
+				max="13"
+				step="1"
+				value={value}
+				onChange={handleChange}
+				className="SettingPopUp__LimitSlider__Valor"
+			/>
+		</div>
+	);
+};
 
 const Switch = () => {
 	const [isChecked, setIsChecked] = useState(false);
   
 	const toggleSwitch = () => {
-	  setIsChecked(!isChecked);
+		setIsChecked(!isChecked);
 	};
   
 	return (
-	  <div className={`switch ${isChecked ? 'on' : 'off'}`} onClick={toggleSwitch}>
-		<div className={`slider ${isChecked ? 'on' : 'off'}`}></div>
-	  </div>
+		<div className={`switch ${isChecked ? 'on' : 'off'}`} onClick={toggleSwitch}>
+			<div className={`slider ${isChecked ? 'on' : 'off'}`}></div>
+		</div>
 	);
-  };
+};
 
 const getPosition = (state) => {
 	switch (state) {
@@ -236,7 +262,7 @@ const ThreeStateToggleSwitch = () => {
 	return (
 		<div className="SettingPopUp__TriToggleSwitch">
 			<div className="SettingPopUp__TriToggleSwitch__Slider" style={{ transform: `translateX(${getPosition(toggleState)}px)` }}>
-			  {toggleState}
+				{toggleState}
 			</div>
 			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Homme" onClick={() => handleToggle('Homme')}>Homme</div>
 			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Autre" onClick={() => handleToggle('Autre')}>Autre</div>
@@ -300,8 +326,9 @@ const PopUp_Setting = () => {
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Age Gap
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
 						Geographical Limit
+						<LimitSlider/>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Interest Flag
