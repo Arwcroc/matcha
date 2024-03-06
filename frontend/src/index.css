@@ -512,7 +512,6 @@ code {
 	font-weight: bold;
 }
 
-
 .App__WebContainer__Header__SettingPopUp_SettingName {
 	display: flex;
 	width: 99%;
@@ -522,6 +521,48 @@ code {
 	margin-top: 3%;
 	margin-left: -2%;
 	font-size: 12px;
+}
+
+.App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange {
+	display: flex;
+	flex-direction: column;
+	width: 99%;
+	height: fit-content;
+	background-color: white;
+	padding-left: 3%;
+	padding-bottom: 1%;
+	padding-top: 1%;
+	margin-top: 3%;
+	margin-left: -2%;
+	font-size: 12px;
+}
+
+.App__WebContainer__Header__SettingPopUp_SettingName__Select {
+	width: fit-content;
+	margin-left: 2%;
+}
+
+.App__WebContainer__Header__SettingPopUp_SettingName__Icon {
+	display: flex;
+	margin-left: auto;
+	margin-right: 1%;
+	margin-top: -2%;
+}
+
+.App__WebContainer__Header__SettingPopUp_SettingName__DivBoxName {
+	display: flex;
+	flex-direction: row;
+}
+
+.App__WebContainer__Header__SettingPopUp_SettingName__NameBox {
+	font-size: 12px;
+	font-weight: lighter;
+	margin-left: 10px;
+	border: 1px solid gray;
+	border-radius: 8px;
+	padding: 4px;
+	width: fit-content;
+	margin-bottom: 1%;
 }
 
 .TriSwitch {
@@ -582,16 +623,16 @@ code {
 	color: #333;
 }
 
-.Homme {
+.First {
 	background-color: #FF4500;
 	border-radius: 15px 0px 0px 15px;
 }
 
-.Autre {
+.Second {
 	background-color: #FFA500;
 }
 
-.Femme {
+.Third {
 	background-color: #ffd000;
 	border-radius: 0px 15px 15px 0px;
 }

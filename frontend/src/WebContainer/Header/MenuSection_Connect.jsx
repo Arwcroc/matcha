@@ -45,6 +45,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
 import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
 
+import EditIcon from '@mui/icons-material/Edit';
+
 const SlideBox = () => {
 	return (
 		<CarouselProvider
@@ -87,7 +89,6 @@ const PopUp_Profile = () => {
 					<SlideBox />
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Score">
-					{/* <Rating name="OrgasmScore" value={4} readOnly /> */}
 					<StyledRating
 						name="customized-color"
 						defaultValue={4.6}
@@ -241,10 +242,13 @@ const Switch = () => {
 const getPosition = (state) => {
 	switch (state) {
 		case 'Homme':
+		case 'Hétéro':
 			return 0;
 		case 'Autre':
+		case 'Bi':
 			return 90;
 		case 'Femme':
+		case 'Lesb/Gay':
 			return 180;
 		default:
 			return 0;
@@ -252,8 +256,9 @@ const getPosition = (state) => {
 };
 
 
-const ThreeStateToggleSwitch = () => {
-	const [toggleState, setToggleState] = useState('Homme');
+const ThreeStateToggleSwitch = (props) => {
+	const { prop1, prop2, prop3 } = props;
+	const [toggleState, setToggleState] = useState(prop1);
 
 	const handleToggle = (newState) => {
 		setToggleState(newState);
@@ -264,14 +269,39 @@ const ThreeStateToggleSwitch = () => {
 			<div className="SettingPopUp__TriToggleSwitch__Slider" style={{ transform: `translateX(${getPosition(toggleState)}px)` }}>
 				{toggleState}
 			</div>
-			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Homme" onClick={() => handleToggle('Homme')}>Homme</div>
-			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Autre" onClick={() => handleToggle('Autre')}>Autre</div>
-			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Femme" onClick={() => handleToggle('Femme')}>Femme</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option First" onClick={() => handleToggle(prop1)}>{prop1}</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Second" onClick={() => handleToggle(prop2)}>{prop2}</div>
+			<div className="SettingPopUp__TriToggleSwitch__Slider__Option Third" onClick={() => handleToggle(prop3)}>{prop3}</div>
 		</div>
 	);
 };
-  
+
+const AgeSelect = ({ onChange, selectedAge }) => {
+	const ageOptions = [];
+	for (let i = 10; i <= 100; i++) {
+		ageOptions.push(
+		<option key={i} value={i}>
+			{i}
+		</option>
+		);
+	}
+	
+	return (
+		<select className="App__WebContainer__Header__SettingPopUp_SettingName__Select" onChange={(e) => onChange(e.target.value)} value={selectedAge}>
+			{ageOptions}
+		</select>
+	);
+};
+
+
+
 const PopUp_Setting = () => {
+	const [selectedAge, setSelectedAge] = useState(18); // Initial value
+
+	const handleAgeChange = (age) => {
+	  setSelectedAge(age);
+	};
+
 	return (
 		<>
 			<Box className="App__WebContainer__Header__SettingPopUp">
@@ -280,28 +310,44 @@ const PopUp_Setting = () => {
 				</Box>
 				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
 					Personnal Information
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
 						Name
+						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
+						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">OMG your name offends me, you can change it by clicking on the icon just right here</p>
+						<div className="App__WebContainer__Header__SettingPopUp_SettingName__DivBoxName">
+							<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">Name</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">Last Name</Box>
+						</div>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
-						Last Name
-					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
 						Age
+						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
+      					<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Selected the age you want to show</p>
+						<AgeSelect onChange={handleAgeChange} selectedAge={selectedAge} />
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
 						Gender
 						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Choose a gender, yes you have the choice...</p>
-						<ThreeStateToggleSwitch/>
+						<ThreeStateToggleSwitch prop1='Homme' prop2='Autre' prop3='Femme'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
 						Sexual Interest
+						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Only steers and queers in Texas</p>
+						<ThreeStateToggleSwitch prop1='Hétéro' prop2='Bi' prop3='Lesb/Gay'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
 						Biography
+						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
+						<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">J'apprécie les fruits en sirop</Box>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
 						Picture
+						<Box>fds</Box>
+						<Box></Box>
+						<Box></Box>
+						<Box></Box>
+						<Box></Box>
+
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
@@ -396,7 +442,7 @@ const MenuSection_Connect = () => {
 	const listOpen = Boolean(anchorEl);
 
 	const handleClick = (event) => {
-	  setAnchorEl(event.currentTarget);
+		setAnchorEl(event.currentTarget);
 	};
 	const closeList = () => {
 	  setAnchorEl(null);
