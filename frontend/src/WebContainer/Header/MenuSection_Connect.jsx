@@ -287,7 +287,7 @@ const AgeSelect = ({ onChange, selectedAge }) => {
 	}
 	
 	return (
-		<select className="App__WebContainer__Header__SettingPopUp_SettingName__Select" onChange={(e) => onChange(e.target.value)} value={selectedAge}>
+		<select className="App__WebContainer__Header__SettingPopUp__SettingName__Select" onChange={(e) => onChange(e.target.value)} value={selectedAge}>
 			{ageOptions}
 		</select>
 	);
@@ -305,81 +305,118 @@ const PopUp_Setting = () => {
 	return (
 		<>
 			<Box className="App__WebContainer__Header__SettingPopUp">
-				<Box className="App__WebContainer__Header__SettingPopUp_Title">
+				<Box className="App__WebContainer__Header__SettingPopUp__Title">
 					Settings
 				</Box>
-				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+				<Box className="App__WebContainer__Header__SettingPopUp__BoxTitle">
 					Personnal Information
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
 						Name
-						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
-						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">OMG your name offends me, you can change it by clicking on the icon just right here</p>
-						<div className="App__WebContainer__Header__SettingPopUp_SettingName__DivBoxName">
-							<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">Name</Box>
-							<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">Last Name</Box>
+						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">OMG your name offends me, you can change it by clicking on the icon just right here</p>
+						<div className="App__WebContainer__Header__SettingPopUp__SettingName__DivBoxName">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">Name</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">Last Name</Box>
 						</div>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
 						Age
-						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
-      					<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Selected the age you want to show</p>
+						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
+      					<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Selected the age you want to show</p>
 						<AgeSelect onChange={handleAgeChange} selectedAge={selectedAge} />
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Gender
-						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Choose a gender, yes you have the choice...</p>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Choose a gender, yes you have the choice...</p>
 						<ThreeStateToggleSwitch prop1='Homme' prop2='Autre' prop3='Femme'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Sexual Interest
-						<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Only steers and queers in Texas</p>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Only steers and queers in Texas</p>
 						<ThreeStateToggleSwitch prop1='Hétéro' prop2='Bi' prop3='Lesb/Gay'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName__SimpleChange">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
 						Biography
-						<EditIcon className="App__WebContainer__Header__SettingPopUp_SettingName__Icon" style={{ fontSize: '15px' }}/>
-						<Box className="App__WebContainer__Header__SettingPopUp_SettingName__NameBox">J'apprécie les fruits en sirop</Box>
+						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Talk about yourself, a usual</p>
+						<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">J'apprécie les fruits en sirop</Box>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__Picture">
 						Picture
-						<Box>fds</Box>
-						<Box></Box>
-						<Box></Box>
-						<Box></Box>
-						<Box></Box>
-
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Try to choose one where you wear clothes...</p>
+						<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Portrait}/>
+								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Meuh}/>
+								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Donna}/>
+								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Ermine}/>
+								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Nothing">+</p>
+							</Box>
+						</Box>
 					</Box>
 				</Box>
-				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+				<Box className="App__WebContainer__Header__SettingPopUp__BoxTitle">
 					Services
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName Switch">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName Switch">
 						<Box>
 							Location
-							<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Make your location great again</p>
+							<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Make your location great again</p>
 						</Box>
 						<Switch />
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName Switch">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName Switch">
 						<Box>
 							Active Wi-Fi
-							<p className="App__WebContainer__Header__SettingPopUp_SettingName__Text">Enable your Wi-Fi</p>
+							<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Enable your Wi-Fi</p>
 						</Box>
 						<Switch />
 					</Box>
 				</Box>
-				<Box className="App__WebContainer__Header__SettingPopUp_BoxTitle">
+				<Box className="App__WebContainer__Header__SettingPopUp__BoxTitle">
 					Filter
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName">
 						Age Gap
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName TriSwitch">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Geographical Limit
 						<LimitSlider/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__FlagBox">
 						Interest Flag
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Not here to kinkshame, dirtyboy</p>
+						<Box className="App__WebContainer__Header__SettingPopUp__SettingName__AllTag">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__Tag">Naruto</p>
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagRemover">x</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__Tag">Riz</p>
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagRemover">x</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+						</Box>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp_SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName">
 						Fame Rating
 					</Box>
 				</Box>
