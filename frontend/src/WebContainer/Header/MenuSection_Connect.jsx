@@ -5,13 +5,11 @@ import Box from '@mui/material/Box';
 import Logo from '../../Images/MenuSection/Urme-logo.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-// import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-// import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
@@ -293,10 +291,31 @@ const AgeSelect = ({ onChange, selectedAge }) => {
 	);
 };
 
+const RateButtons = () => {
+	const [selectedRate, setSelectedRate] = useState(null);
+	
+	const handleRateSelection = (rate) => {
+		setSelectedRate(rate === selectedRate ? null : rate);
+	};
+	
+	return (
+		<div className="App__WebContainer__Header__SettingPopUp__SettingName__AllRate">
+		{[4, 3, 2, 1, 0].map((rate) => (
+			<div
+			key={rate}
+			className={`App__WebContainer__Header__SettingPopUp__SettingName__RateContainer ${rate === selectedRate ? 'selected' : 'unselected'}`}
+			onClick={() => handleRateSelection(rate)}
+			>
+			<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">{`${rate} et +`}</p>
+			</div>
+		))}
+		</div>
+	);
+};
 
 
 const PopUp_Setting = () => {
-	const [selectedAge, setSelectedAge] = useState(18); // Initial value
+	const [selectedAge, setSelectedAge] = useState(18);
 
 	const handleAgeChange = (age) => {
 	  setSelectedAge(age);
@@ -386,8 +405,9 @@ const PopUp_Setting = () => {
 				</Box>
 				<Box className="App__WebContainer__Header__SettingPopUp__BoxTitle">
 					Filter
-					<Box className="App__WebContainer__Header__SettingPopUp__SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Age Gap
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Select what you want, it isn't me who go to jail</p>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Geographical Limit
@@ -416,8 +436,27 @@ const PopUp_Setting = () => {
 							</Box>
 						</Box>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp__SettingName">
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__FlagBox">
 						Fame Rating
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">The level of hornyness you want to encounter</p>
+						{/* <Box className="App__WebContainer__Header__SettingPopUp__SettingName__AllRate">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__RateContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">4 et +</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__RateContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">3 et +</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__RateContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">2 et +</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__RateContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">1 et +</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__RateContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__RateSelection">0 et +</p>
+							</Box>
+						</Box> */}
+						<RateButtons/>
 					</Box>
 				</Box>
 			</Box>
@@ -504,10 +543,6 @@ const MenuSection_Connect = () => {
 		closeList();
 		setSettingsOpen(true);
 	};
-
-	// const handleMessageClose = () => {
-	// 	setMessageOpen(false);
-	// };
 
 	return (
 		<>

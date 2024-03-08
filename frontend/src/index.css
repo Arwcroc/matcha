@@ -810,6 +810,38 @@ code {
 	cursor: pointer;
 }
 
+.App__WebContainer__Header__SettingPopUp__SettingName__AllRate {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.App__WebContainer__Header__SettingPopUp__SettingName__RateContainer {
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+	border-radius: 8px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.App__WebContainer__Header__SettingPopUp__SettingName__RateSelection {
+	padding: 5px;
+	margin: 2%;
+	width: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.selected {
+	background-color: rgb(255, 115, 0);
+}
+
+.unselected {
+	background-color: #e4e4e4;
+} 
+
 .App__WebContainer__Header__SettingPopUp {
 
 }
