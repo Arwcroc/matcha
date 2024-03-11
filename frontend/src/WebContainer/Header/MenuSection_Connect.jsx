@@ -256,7 +256,7 @@ const getPosition = (state) => {
 
 const ThreeStateToggleSwitch = (props) => {
 	const { prop1, prop2, prop3 } = props;
-	const [toggleState, setToggleState] = useState(prop1);
+	const [toggleState, setToggleState] = useState(prop2);
 
 	const handleToggle = (newState) => {
 		setToggleState(newState);
@@ -313,6 +313,37 @@ const RateButtons = () => {
 	);
 };
 
+const DoubleSlider = () => {
+	const [minValue, setMinValue] = useState(0);
+	const [maxValue, setMaxValue] = useState(50);
+  
+	const handleThumb1Move = (e) => {
+	  const newValue = calculateValue(e);
+	  setMinValue(newValue);
+	};
+  
+	const handleThumb2Move = (e) => {
+	  const newValue = calculateValue(e);
+	  setMaxValue(newValue);
+	};
+  
+	const calculateValue = (e) => {
+	  const slider = e.target;
+	  const rect = slider.getBoundingClientRect();
+	  const percentage = (e.clientX - rect.left) / rect.width;
+	  const newValue = Math.round(percentage * 100);
+	  return newValue;
+	};
+  
+	return (
+	  <div className="double-slider">
+		<div className="thumb" style={{ left: `${minValue}%` }} onClick={handleThumb1Move}></div>
+		<div className="thumb" style={{ left: `${maxValue}%` }} onClick={handleThumb2Move}></div>
+		<div className="range" style={{ left: `${minValue}%`, width: `${maxValue - minValue}%` }}></div>
+	  </div>
+	);
+  };
+
 
 const PopUp_Setting = () => {
 	const [selectedAge, setSelectedAge] = useState(18);
@@ -336,6 +367,14 @@ const PopUp_Setting = () => {
 						<div className="App__WebContainer__Header__SettingPopUp__SettingName__DivBoxName">
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">Name</Box>
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">Last Name</Box>
+						</div>
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
+						Email
+						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Change your email</p>
+						<div className="App__WebContainer__Header__SettingPopUp__SettingName__DivBoxName">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">sac@merde.com</Box>
 						</div>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
@@ -408,6 +447,7 @@ const PopUp_Setting = () => {
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Age Gap
 						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Select what you want, it isn't me who go to jail</p>
+						<DoubleSlider/>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Geographical Limit
@@ -622,7 +662,7 @@ const MenuSection_Connect = () => {
           			<ListItemIcon>
            				 <Diversity1RoundedIcon fontSize="small" />
           			</ListItemIcon>
-          			All matches
+          			Interact
         		</MenuItem>
         		<MenuItem onClick={openSettings}>
           			<ListItemIcon>

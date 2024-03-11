@@ -677,7 +677,7 @@ code {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
-	background: linear-gradient(to right, rgb(255, 230, 0), red);
+	background: grey;
 	outline: none;
 	border-radius: 14px;
 	height: 8px;
@@ -685,6 +685,11 @@ code {
 
 .SettingPopUp__LimitSlider__Valor::-moz-range-thumb {
 	background: rgb(255, 255, 255);
+}
+.SettingPopUp__LimitSlider__Valor::-moz-range-progress {
+	background: linear-gradient(to right, rgb(255, 230, 0), red);
+	border-radius: 14px;
+	height: 8px;
 }
 
 .App__WebContainer__Header__SettingPopUp__SettingName__Picture {
@@ -841,6 +846,36 @@ code {
 .unselected {
 	background-color: #e4e4e4;
 } 
+
+.double-slider {
+	position: relative;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	background: grey;
+	outline: none;
+	border-radius: 14px;
+	height: 8px;
+  }
+
+  .thumb {
+	background: rgb(255, 255, 255);
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	z-index: 6;
+	/* cursor: ew-resize; */
+	/* transform: translate(-50%, -50%); */
+  }
+  
+  .range {
+	position: absolute;
+	height: 100%;
+	background: linear-gradient(to right, rgb(255, 230, 0), red);
+	border-radius: 14px;
+	cursor: pointer;
+  }
 
 .App__WebContainer__Header__SettingPopUp {
 
