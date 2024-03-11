@@ -5,8 +5,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object"
-	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 	"matcha/backend/pkg/utils"
@@ -18,27 +18,12 @@ type credentials struct {
 	Password string `json:"password"`
 }
 
-func getObjectDriver(c *fiber.Ctx) error {
-	driver := c.Locals("database").(database.Driver)
-
-	userDriver, err := driver.NewObjectDriver(user.User{})
-	if err != nil {
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_driver", userDriver) == nil {
-		slog.Error("could not set user_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	return c.Next()
-}
-
 func Register(app *fiber.App) {
 	group := app.Group("/auth")
-	group.Use(getObjectDriver)
-	group.Get("/whoami", permissions.LoggedIn(whoami))
+	group.Use(userService.UserService)
+	group.Get("/whoami", permissions.LoggedIn{}.Decorate(whoami).GetHandler())
+	group.Get("/logout", permissions.LoggedIn{}.Decorate(logout).GetHandler())
 	group.Post("/login", login)
-	group.Get("/logout", permissions.LoggedIn(logout))
 }
 
 func login(c *fiber.Ctx) error {

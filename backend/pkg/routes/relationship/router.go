@@ -2,47 +2,27 @@ package relationship
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/database/arangodb"
+	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/userService"
+	"matcha/backend/pkg/middleware/userUserService"
 	"matcha/backend/pkg/object"
-	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/object/user_user"
-	"matcha/backend/pkg/routes"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 )
 
-// TODO find a way to put this in the database manager middleware (through decorators ?)
-func getObjectDriver(c *fiber.Ctx) error {
-	dbDriver := c.Locals("database").(database.Driver)
-
-	userDriver, err := dbDriver.NewObjectDriver(user.User{})
-	if err != nil {
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_driver", userDriver) == nil {
-		slog.Error("could not set user_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	userUserDriver, err := dbDriver.NewObjectDriver(user_user.UserUser{})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_user_driver", userUserDriver) == nil {
-		slog.Error("could not set user_user_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	return c.Next()
-}
-
 func Register(app *fiber.App) {
 	group := app.Group("/relationship")
-	group.Use(getObjectDriver)
-	group.Put("/:username", permissions.LoggedIn(routes.GetUserFromParam(setRelationship)))
+	group.Use(userService.UserService)
+	group.Use(userUserService.UserUserService)
+
+	group.Put("/:username",
+		permissions.LoggedIn{}.Decorate(
+			params.User{}.Decorate(setRelationship).GetHandler(),
+		).GetHandler(),
+	)
 }
 
 // TODO make this generic

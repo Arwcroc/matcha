@@ -2,21 +2,27 @@ package permissions
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/store"
 )
 
-func isLoggedIn(c *fiber.Ctx) (bool, error) {
-	session := c.Locals("session").(*store.Session)
-	id := session.Get("username")
-	return id != nil, nil
+type LoggedIn struct {
+	decorators.HandlerDecorator
+	inner fiber.Handler
 }
 
-func LoggedIn(next fiber.Handler) fiber.Handler {
+func (l LoggedIn) GetHandler() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		loggedIn, _ := isLoggedIn(c)
-		if !loggedIn {
+		session := c.Locals("session").(*store.Session)
+		id := session.Get("username")
+		if id == nil {
 			return fiber.ErrUnauthorized
 		}
-		return next(c)
+		return l.inner(c)
 	}
+}
+
+func (l LoggedIn) Decorate(handler fiber.Handler) decorators.HandlerDecorator {
+	l.inner = handler
+	return l
 }

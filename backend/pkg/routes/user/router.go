@@ -4,7 +4,9 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/routes"
@@ -12,29 +14,26 @@ import (
 	"matcha/backend/pkg/utils"
 )
 
-// TODO find a way to put this in the database manager middleware (through decorators ?)
-func getObjectDriver(c *fiber.Ctx) error {
-	dbDriver := c.Locals("database").(database.Driver)
-
-	userDriver, err := dbDriver.NewObjectDriver(user.User{})
-	if err != nil {
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_driver", userDriver) == nil {
-		slog.Error("could not set user_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	return c.Next()
-}
-
 func Register(app *fiber.App) {
 	group := app.Group("/user")
-	group.Use(getObjectDriver)
+	group.Use(userService.UserService)
+
 	group.Post("/", createUser)
-	group.Get("/:username", permissions.LoggedIn(routes.GetUserFromParam(getUser)))
-	group.Put("/:username", permissions.SelfOrAdmin(routes.GetUserFromParam(setUser)))
-	group.Delete("/:username", permissions.SelfOrAdmin(routes.GetUserFromParam(deleteUser)))
+	group.Get("/:username",
+		permissions.LoggedIn{}.Decorate(
+			params.User{}.Decorate(getUser).GetHandler(),
+		).GetHandler(),
+	)
+	group.Put("/:username",
+		permissions.SelfOrAdmin{}.Decorate(
+			params.User{}.Decorate(setUser).GetHandler(),
+		).GetHandler(),
+	)
+	group.Delete("/:username",
+		permissions.SelfOrAdmin{}.Decorate(
+			params.User{}.Decorate(deleteUser).GetHandler(),
+		).GetHandler(),
+	)
 }
 
 func createUser(c *fiber.Ctx) error {

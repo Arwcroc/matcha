@@ -4,59 +4,35 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/photoService"
+	"matcha/backend/pkg/middleware/userPhotoService"
+	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/photo"
-	"matcha/backend/pkg/object/user"
-	"matcha/backend/pkg/object/user_photo"
-	"matcha/backend/pkg/routes"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 )
 
-func getObjectDriver(c *fiber.Ctx) error {
-	dbDriver := c.Locals("database").(database.Driver)
-
-	userDriver, err := dbDriver.NewObjectDriver(user.User{})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_driver", userDriver) == nil {
-		slog.Error("could not set user_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	photoDriver, err := dbDriver.NewObjectDriver(photo.Photo{})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("photo_driver", photoDriver) == nil {
-		slog.Error("could not set photo_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	userPhotoDriver, err := dbDriver.NewObjectDriver(user_photo.UserPhoto{})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	if c.Locals("user_photo_driver", userPhotoDriver) == nil {
-		slog.Error("could not set user_photo_driver")
-		return fiber.ErrInternalServerError
-	}
-
-	return c.Next()
-}
-
 func Register(app *fiber.App) {
 	group := app.Group("/photo")
-	group.Use(getObjectDriver)
-	group.Get("/:username", permissions.LoggedIn(routes.GetUserFromParam(getPhotosOfUser)))
-	group.Post("/:username", permissions.SelfOrAdmin(routes.GetUserFromParam(createPhotoOfUser)))
-	group.Put("/:index", permissions.Self(setPhoto))
-	group.Delete("/:index", permissions.Self(deletePhoto))
+	group.Use(userService.UserService)
+	group.Use(photoService.PhotoService)
+	group.Use(userPhotoService.UserPhotoService)
+
+	group.Get("/:username",
+		permissions.LoggedIn{}.Decorate(
+			params.User{}.Decorate(getPhotosOfUser).GetHandler(),
+		).GetHandler(),
+	)
+	group.Post("/:username",
+		permissions.SelfOrAdmin{}.Decorate(
+			params.User{}.Decorate(createPhotoOfUser).GetHandler(),
+		).GetHandler(),
+	)
+	group.Put("/:index", permissions.Self{}.Decorate(setPhoto).GetHandler())
+	group.Delete("/:index", permissions.Self{}.Decorate(deletePhoto).GetHandler())
 }
 
 func getPhotosOfUser(c *fiber.Ctx) error {
