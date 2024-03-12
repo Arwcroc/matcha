@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object"
@@ -21,8 +22,14 @@ type credentials struct {
 func Register(app *fiber.App) {
 	group := app.Group("/auth")
 	group.Use(userService.UserService)
-	group.Get("/whoami", permissions.LoggedIn{}.Decorate(whoami).GetHandler())
-	group.Get("/logout", permissions.LoggedIn{}.Decorate(logout).GetHandler())
+	group.Get("/whoami", decorators.Decorate(
+		whoami,
+		permissions.LoggedIn{},
+	))
+	group.Get("/logout", decorators.Decorate(
+		logout,
+		permissions.LoggedIn{},
+	))
 	group.Post("/login", login)
 }
 

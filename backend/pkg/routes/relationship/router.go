@@ -3,6 +3,7 @@ package relationship
 import (
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database/arangodb"
+	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/userService"
@@ -18,11 +19,11 @@ func Register(app *fiber.App) {
 	group.Use(userService.UserService)
 	group.Use(userUserService.UserUserService)
 
-	group.Put("/:username",
-		permissions.LoggedIn{}.Decorate(
-			params.User{}.Decorate(setRelationship).GetHandler(),
-		).GetHandler(),
-	)
+	group.Put("/:username", decorators.Decorate(
+		setRelationship,
+		permissions.LoggedIn{},
+		params.User{},
+	))
 }
 
 // TODO make this generic

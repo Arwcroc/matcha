@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/userService"
@@ -19,21 +20,21 @@ func Register(app *fiber.App) {
 	group.Use(userService.UserService)
 
 	group.Post("/", createUser)
-	group.Get("/:username",
-		permissions.LoggedIn{}.Decorate(
-			params.User{}.Decorate(getUser).GetHandler(),
-		).GetHandler(),
-	)
-	group.Put("/:username",
-		permissions.SelfOrAdmin{}.Decorate(
-			params.User{}.Decorate(setUser).GetHandler(),
-		).GetHandler(),
-	)
-	group.Delete("/:username",
-		permissions.SelfOrAdmin{}.Decorate(
-			params.User{}.Decorate(deleteUser).GetHandler(),
-		).GetHandler(),
-	)
+	group.Get("/:username", decorators.Decorate(
+		getUser,
+		permissions.LoggedIn{},
+		params.User{},
+	))
+	group.Put("/:username", decorators.Decorate(
+		setUser,
+		permissions.SelfOrAdmin{},
+		params.User{},
+	))
+	group.Delete("/:username", decorators.Decorate(
+		deleteUser,
+		permissions.SelfOrAdmin{},
+		params.User{},
+	))
 }
 
 func createUser(c *fiber.Ctx) error {

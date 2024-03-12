@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/photoService"
@@ -21,18 +22,24 @@ func Register(app *fiber.App) {
 	group.Use(photoService.PhotoService)
 	group.Use(userPhotoService.UserPhotoService)
 
-	group.Get("/:username",
-		permissions.LoggedIn{}.Decorate(
-			params.User{}.Decorate(getPhotosOfUser).GetHandler(),
-		).GetHandler(),
-	)
-	group.Post("/:username",
-		permissions.SelfOrAdmin{}.Decorate(
-			params.User{}.Decorate(createPhotoOfUser).GetHandler(),
-		).GetHandler(),
-	)
-	group.Put("/:index", permissions.Self{}.Decorate(setPhoto).GetHandler())
-	group.Delete("/:index", permissions.Self{}.Decorate(deletePhoto).GetHandler())
+	group.Get("/:username", decorators.Decorate(
+		getPhotosOfUser,
+		permissions.LoggedIn{},
+		params.User{},
+	))
+	group.Post("/:username", decorators.Decorate(
+		createPhotoOfUser,
+		permissions.SelfOrAdmin{},
+		params.User{},
+	))
+	group.Put("/:index", decorators.Decorate(
+		setPhoto,
+		permissions.Self{},
+	))
+	group.Delete("/:index", decorators.Decorate(
+		setPhoto,
+		permissions.Self{},
+	))
 }
 
 func getPhotosOfUser(c *fiber.Ctx) error {
