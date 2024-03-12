@@ -19,11 +19,12 @@ type Document struct {
 
 type EdgeDocument struct {
 	Document
-	driver.EdgeDocument
+	From string `json:"_from,omitempty"`
+	To   string `json:"_to,omitempty"`
 }
 
 type ObjectDriver struct {
-	wrappedType   object.Object
+	wrappedType   object.IObject
 	wrappedObject map[string]interface{}
 	Ctx           context.Context
 	Collection    driver.Collection
@@ -49,7 +50,7 @@ func (o *ObjectDriver) GetInternal() *map[string]interface{} {
 	return &o.wrappedObject
 }
 
-func (o *ObjectDriver) SetInternal(object object.Object) error {
+func (o *ObjectDriver) SetInternal(object object.IObject) error {
 	o.wrappedType = object
 	asMap, err := o.wrappedType.AsMap()
 	if err != nil {

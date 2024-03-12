@@ -8,7 +8,6 @@ import (
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/userService"
-	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/routes"
 	"matcha/backend/pkg/slog"
@@ -39,9 +38,9 @@ func Register(app *fiber.App) {
 
 func createUser(c *fiber.Ctx) error {
 	c.Accepts("json")
-	userDriver := c.Locals("user_driver").(object.Driver)
+	userObject := c.Locals(userService.Local).(user.User)
 
-	inputUser := user.User{}
+	inputUser := userObject
 	err := c.BodyParser(&inputUser)
 	if err != nil {
 		slog.Warn(err)
@@ -56,13 +55,7 @@ func createUser(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	err = userDriver.SetInternal(inputUser)
-	if err != nil {
-		slog.Warn(err)
-		return fiber.ErrBadRequest
-	}
-
-	newUser, err := userDriver.Create()
+	o, err := inputUser.Create()
 	if err != nil {
 		if errors.Is(err, database.UniqueConstraintError) {
 			return fiber.ErrConflict
@@ -70,22 +63,24 @@ func createUser(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	userDriver.SetField("password", nil)
-	return c.JSON(*newUser)
+	dbUser.Password = ""
+	return c.JSON(dbUser)
 }
 
 func getUser(c *fiber.Ctx) error {
-	paramUser := c.Locals("param_user").(object.Driver)
-	paramUser.SetField("password", nil)
-	return c.JSON(*paramUser.GetInternal())
+	paramUser := c.Locals(params.UserLocal).(user.User)
+	paramUser.Password = ""
+	return c.JSON(paramUser)
 }
 
 func setUser(c *fiber.Ctx) error {
 	c.Accepts("json")
-	paramUser := c.Locals("param_user").(object.Driver)
+	userObject := c.Locals(userService.Local).(user.User)
+	paramUser := c.Locals(params.UserLocal).(user.User)
 
-	inputUser := user.User{}
+	inputUser := userObject
 	err := c.BodyParser(&inputUser)
 	if err != nil {
 		slog.Warn(err)
@@ -95,28 +90,23 @@ func setUser(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 	if inputUser.Password == "" {
-		inputUser.Password = paramUser.GetField("password").(string)
+		inputUser.Password = paramUser.Password
 	}
-	inputUser.Username = paramUser.GetField("username").(string)
+	inputUser.Username = paramUser.Username
 
-	err = paramUser.SetInternal(inputUser)
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrBadRequest
-	}
-
-	newUser, err := paramUser.Set()
+	o, err := inputUser.Set()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	paramUser.SetField("password", nil)
-	return c.JSON(*newUser)
+	dbUser.Password = ""
+	return c.JSON(dbUser)
 }
 
 func deleteUser(c *fiber.Ctx) error {
-	paramUser := c.Locals("param_user").(object.Driver)
+	paramUser := c.Locals(params.UserLocal).(user.User)
 	err := paramUser.Delete()
 	if err != nil {
 		slog.Error(err)

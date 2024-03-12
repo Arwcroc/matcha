@@ -6,8 +6,9 @@ import (
 	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/middleware/userService"
-	"matcha/backend/pkg/object"
+	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 	"matcha/backend/pkg/utils"
@@ -34,8 +35,8 @@ func Register(app *fiber.App) {
 }
 
 func login(c *fiber.Ctx) error {
-	session := c.Locals("session").(*store.Session)
-	userDriver := c.Locals("user_driver").(object.Driver)
+	session := c.Locals(sessionManager.Local).(*store.Session)
+	userObject := c.Locals(userService.Local).(user.User)
 
 	inputCredentials := credentials{}
 	err := c.BodyParser(&inputCredentials)
@@ -54,7 +55,7 @@ func login(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	_, err = userDriver.Get(map[string]interface{}{
+	o, err := userObject.Get(map[string]interface{}{
 		key: value,
 	})
 	if err != nil {
@@ -64,27 +65,28 @@ func login(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	if !utils.CheckPasswordHash(inputCredentials.Password, userDriver.GetField("password").(string)) {
+	if !utils.CheckPasswordHash(inputCredentials.Password, dbUser.Password) {
 		return fiber.ErrNotFound
 	}
 
-	userDriver.SetField("password", nil)
-	session.Set("username", userDriver.GetField("username"))
-	return c.JSON(*userDriver.GetInternal())
+	dbUser.Password = ""
+	session.Set("username", dbUser.Username)
+	return c.JSON(dbUser)
 }
 
 func logout(c *fiber.Ctx) error {
-	session := c.Locals("session").(*store.Session)
+	session := c.Locals(sessionManager.Local).(*store.Session)
 	session.Delete("username")
 	return c.SendStatus(fiber.StatusOK)
 }
 
 func whoami(c *fiber.Ctx) error {
-	userDriver := c.Locals("user_driver").(object.Driver)
-	session := c.Locals("session").(*store.Session)
+	userObject := c.Locals(userService.Local).(user.User)
+	session := c.Locals(sessionManager.Local).(*store.Session)
 
-	_, err := userDriver.Get(map[string]interface{}{
+	o, err := userObject.Get(map[string]interface{}{
 		"username": session.Get("username").(string),
 	})
 	if err != nil {
@@ -94,7 +96,8 @@ func whoami(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	userDriver.SetField("password", nil)
-	return c.JSON(*userDriver.GetInternal())
+	dbUser.Password = ""
+	return c.JSON(dbUser)
 }

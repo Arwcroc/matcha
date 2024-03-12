@@ -1,14 +1,16 @@
 package relationship
 
 import (
+	"errors"
 	"github.com/gofiber/fiber/v2"
-	"matcha/backend/pkg/database/arangodb"
+	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/middleware/userUserService"
-	"matcha/backend/pkg/object"
+	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/object/user_user"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
@@ -26,53 +28,51 @@ func Register(app *fiber.App) {
 	))
 }
 
-// TODO make this generic
 // setRelationship Updates or creates a relationship element between two users with the provided json
 func setRelationship(c *fiber.Ctx) error {
 	c.Accepts("json")
-	userUserDriver := c.Locals("user_user_driver").(arangodb.ObjectDriver)
-	userDriver := c.Locals("user_driver").(object.Driver)
-	paramUser := c.Locals("param_user").(object.Driver)
-	session := c.Locals("session").(*store.Session)
+	userUserObject := c.Locals(userUserService.Local).(user_user.UserUser)
+	userObject := c.Locals(userService.Local).(user.User)
+	paramUser := c.Locals(params.UserLocal).(user.User)
+	session := c.Locals(sessionManager.Local).(*store.Session)
 
-	inputRelationship := user_user.UserUser{}
+	inputRelationship := userUserObject
 	err := c.BodyParser(&inputRelationship)
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	_, err = userDriver.Get(map[string]interface{}{
+	o, err := userObject.Get(map[string]interface{}{
 		"username": session.Get("username").(string),
 	})
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	_, err = userUserDriver.Get(map[string]interface{}{
-		"_from": userDriver.GetField("_id"),
-		"_to":   paramUser.GetField("_id"),
+	inputRelationship.From = dbUser.Id
+	inputRelationship.To = paramUser.Id
+
+	o, err = userUserObject.Get(map[string]interface{}{
+		"_from": inputRelationship.From,
+		"_to":   inputRelationship.To,
 	})
 	if err != nil {
+		if errors.Is(err, database.NotFoundError) {
+			o, err = inputRelationship.Create()
+			if err != nil {
+				slog.Error(err)
+				return fiber.ErrInternalServerError
+			}
+			return c.JSON(o.(user_user.UserUser))
+		}
 		slog.Error(err)
 		return fiber.ErrBadRequest
 	}
+	dbRelationship := o.(user_user.UserUser)
+	inputRelationship.Key = dbRelationship.Key
 
-	err = userUserDriver.SetInternal(inputRelationship)
-	if err != nil {
-		slog.Warn(err)
-		return fiber.ErrBadRequest
-	}
-
-	userUserDriver.SetField("_from", userDriver.GetField("_id"))
-	userUserDriver.SetField("_to", paramUser.GetField("_id"))
-
-	relationship, err := userUserDriver.Create()
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-
-	return c.JSON(*relationship)
+	return c.JSON(inputRelationship)
 }

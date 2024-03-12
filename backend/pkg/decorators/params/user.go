@@ -5,9 +5,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/decorators"
-	"matcha/backend/pkg/object"
+	"matcha/backend/pkg/middleware/userService"
+	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/slog"
 )
+
+const UserLocal = "param_user"
 
 type User struct {
 	inner fiber.Handler
@@ -15,10 +18,10 @@ type User struct {
 
 func (u User) GetHandler() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		userDriver := c.Locals("user_driver").(object.Driver)
+		userObject := c.Locals(userService.Local).(user.User)
 		username := c.Params("username")
 
-		_, err := userDriver.Get(map[string]interface{}{
+		o, err := userObject.Get(map[string]interface{}{
 			"username": username,
 		})
 		if err != nil {
@@ -29,8 +32,8 @@ func (u User) GetHandler() fiber.Handler {
 			return fiber.ErrInternalServerError
 		}
 
-		if c.Locals("param_user", userDriver) == nil {
-			slog.Error("could not set param_user")
+		if c.Locals(UserLocal, o.(user.User)) == nil {
+			slog.Error("could not set " + UserLocal)
 			return fiber.ErrInternalServerError
 		}
 

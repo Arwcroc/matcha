@@ -1,8 +1,9 @@
 package user_user
 
 import (
-	"encoding/json"
+	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/database/arangodb"
+	"matcha/backend/pkg/object"
 )
 
 type RelationshipType string
@@ -14,20 +15,52 @@ const (
 
 type UserUser struct {
 	arangodb.EdgeDocument
+	object.Object
 	Relationship RelationshipType `json:"relationship"`
 }
 
-func (p UserUser) Name() string {
+func (u UserUser) Name() string {
 	return "user_users"
 }
 
-func (p UserUser) AsMap() (map[string]interface{}, error) {
-	asBytes, err := json.Marshal(p)
-	if err != nil {
-		return nil, err
-	}
+func (u UserUser) Create() (object.IObject, error) {
+	return object.Create(u)
+}
 
-	asMap := map[string]interface{}{}
-	err = json.Unmarshal(asBytes, &asMap)
-	return asMap, err
+func (u UserUser) Get(bindValues map[string]interface{}) (object.IObject, error) {
+	return object.Get(u, bindValues)
+}
+
+func (u UserUser) GetAll(bindValues map[string]interface{}) ([]object.IObject, error) {
+	return object.GetAll(u, bindValues)
+}
+
+func (u UserUser) Set() (object.IObject, error) {
+	return object.Set(u)
+}
+
+func (u UserUser) Delete() error {
+	return object.Delete(u)
+}
+
+func (u UserUser) SetDatabaseDriver(driver database.Driver) object.IObject {
+	u.Object.SetDatabaseDriver(driver)
+	return u
+}
+
+func (u UserUser) SetObjectDriver(driver object.Driver) object.IObject {
+	u.Object.SetObjectDriver(driver)
+	return u
+}
+
+func (u UserUser) GetDatabaseDriver() database.Driver {
+	return u.Object.GetDatabaseDriver()
+}
+
+func (u UserUser) GetObjectDriver() object.Driver {
+	return u.Object.GetObjectDriver()
+}
+
+func (u UserUser) AsMap() (map[string]interface{}, error) {
+	return object.AsMap(u)
 }

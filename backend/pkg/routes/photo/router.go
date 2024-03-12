@@ -8,10 +8,12 @@ import (
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
 	"matcha/backend/pkg/middleware/photoService"
+	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/middleware/userPhotoService"
 	"matcha/backend/pkg/middleware/userService"
-	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/photo"
+	"matcha/backend/pkg/object/user"
+	"matcha/backend/pkg/object/user_photo"
 	"matcha/backend/pkg/slog"
 	"matcha/backend/pkg/store"
 )
@@ -37,28 +39,28 @@ func Register(app *fiber.App) {
 		permissions.Self{},
 	))
 	group.Delete("/:index", decorators.Decorate(
-		setPhoto,
+		deletePhoto,
 		permissions.Self{},
 	))
 }
 
 func getPhotosOfUser(c *fiber.Ctx) error {
-	paramUser := c.Locals("param_user").(object.Driver)
-	photoDriver := c.Locals("photo_driver").(object.Driver)
-	userPhotoDriver := c.Locals("user_photo_driver").(object.Driver)
+	paramUser := c.Locals(params.UserLocal).(user.User)
+	photoObject := c.Locals(photoService.Local).(photo.Photo)
+	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
 
-	rels, err := userPhotoDriver.GetAll(map[string]interface{}{
-		"_from": paramUser.GetField("_id"),
+	rels, err := userPhotoObject.GetAll(map[string]interface{}{
+		"_from": paramUser.Id,
 	})
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
 
-	userPhotos := []map[string]interface{}{{}}
+	var userPhotos []photo.Photo
 	for _, rel := range rels {
-		userPhoto, err := photoDriver.Get(map[string]interface{}{
-			"_id": rel["_to"],
+		userPhoto, err := photoObject.Get(map[string]interface{}{
+			"_id": rel.(user_photo.UserPhoto).To,
 		})
 		if err != nil {
 			if errors.Is(err, database.NotFoundError) {
@@ -67,43 +69,36 @@ func getPhotosOfUser(c *fiber.Ctx) error {
 			slog.Error(err)
 			return fiber.ErrInternalServerError
 		}
-		userPhotos = append(userPhotos, *userPhoto)
+		userPhotos = append(userPhotos, userPhoto.(photo.Photo))
 	}
 
 	return c.JSON(userPhotos)
 }
 
-// TODO Find a way to make relations generic
 // createPhotoOfUser creates a photo with the provided json and creates a relationship with the parameter user
 func createPhotoOfUser(c *fiber.Ctx) error {
 	c.Accepts("json")
 
-	paramUser := c.Locals("param_user").(object.Driver)
-	photoDriver := c.Locals("photo_driver").(object.Driver)
-	userPhotoDriver := c.Locals("user_photo_driver").(object.Driver)
+	paramUser := c.Locals(params.UserLocal).(user.User)
+	photoObject := c.Locals(photoService.Local).(photo.Photo)
+	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
 
-	inputPhoto := photo.Photo{}
-	err := c.BodyParser(&inputPhoto)
+	inputPhoto := photoObject
+	err := c.BodyParser(&photoObject)
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	err = photoDriver.SetInternal(inputPhoto)
-	if err != nil {
-		slog.Warn(err)
-		return fiber.ErrBadRequest
-	}
-
-	_, err = photoDriver.Create()
+	o, err := inputPhoto.Create()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbPhoto := o.(photo.Photo)
 
-	rels, err := userPhotoDriver.GetAll(map[string]interface{}{
-		"_from": paramUser.GetField("_id"),
-		"_to":   photoDriver.GetField("_id"),
+	rels, err := userPhotoObject.GetAll(map[string]interface{}{
+		"_from": paramUser.Id,
 	})
 	if err != nil {
 		slog.Error(err)
@@ -115,55 +110,57 @@ func createPhotoOfUser(c *fiber.Ctx) error {
 
 	highestIndex := -1
 	for _, rel := range rels {
-		index := rel["index"].(int)
+		index := rel.(user_photo.UserPhoto).Index
 		if index > highestIndex {
 			highestIndex = index
 		}
 	}
 
-	userPhotoDriver.SetField("_from", paramUser.GetField("_id"))
-	userPhotoDriver.SetField("_to", photoDriver.GetField("_id"))
-	userPhotoDriver.SetField("index", highestIndex+1)
+	userPhoto := userPhotoObject
+	userPhoto.From = paramUser.Id
+	userPhoto.To = dbPhoto.Id
+	userPhoto.Index = highestIndex + 1
 
-	_, err = userPhotoDriver.Create()
+	_, err = userPhoto.Create()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
 
-	return c.JSON(*photoDriver.GetInternal())
+	return c.JSON(dbPhoto)
 }
 
 func setPhoto(c *fiber.Ctx) error {
 	c.Accepts("json")
 
-	photoDriver := c.Locals("photo_driver").(object.Driver)
-	userPhotoDriver := c.Locals("user_photo_driver").(object.Driver)
-	userDriver := c.Locals("user_driver").(object.Driver)
-	session := c.Locals("session").(*store.Session)
+	photoObject := c.Locals(photoService.Local).(photo.Photo)
+	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
+	userObject := c.Locals(userService.Local).(user.User)
+	session := c.Locals(sessionManager.Local).(*store.Session)
 	index, err := c.ParamsInt("index")
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	inputPhoto := photo.Photo{}
+	inputPhoto := photoObject
 	err = c.BodyParser(&inputPhoto)
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	_, err = userDriver.Get(map[string]interface{}{
+	o, err := userObject.Get(map[string]interface{}{
 		"username": session.Get("username").(string),
 	})
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	_, err = userPhotoDriver.Get(map[string]interface{}{
-		"_from": userDriver.GetField("_id"),
+	o, err = userPhotoObject.Get(map[string]interface{}{
+		"_from": dbUser.Id,
 		"index": index,
 	})
 	if err != nil {
@@ -173,9 +170,10 @@ func setPhoto(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbRelationship := o.(user_photo.UserPhoto)
 
-	_, err = photoDriver.Get(map[string]interface{}{
-		"_id": userPhotoDriver.GetField("_to"),
+	o, err = photoObject.Get(map[string]interface{}{
+		"_id": dbRelationship.To,
 	})
 	if err != nil {
 		if errors.Is(err, database.NotFoundError) {
@@ -184,45 +182,48 @@ func setPhoto(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbPhoto := o.(photo.Photo)
 
-	photoDriver.SetField("b64", inputPhoto.B64)
-	newPhoto, err := photoDriver.Set()
+	dbPhoto.B64 = inputPhoto.B64
+	o, err = dbPhoto.Set()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbPhoto = o.(photo.Photo)
 
-	return c.JSON(*newPhoto)
+	return c.JSON(dbPhoto)
 }
 
 func deletePhoto(c *fiber.Ctx) error {
-	photoDriver := c.Locals("photo_driver").(object.Driver)
-	userPhotoDriver := c.Locals("user_photo_driver").(object.Driver)
-	userDriver := c.Locals("user_driver").(object.Driver)
-	session := c.Locals("session").(*store.Session)
+	photoObject := c.Locals(photoService.Local).(photo.Photo)
+	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
+	userObject := c.Locals(userService.Local).(user.User)
+	session := c.Locals(sessionManager.Local).(*store.Session)
 	index, err := c.ParamsInt("index")
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	inputPhoto := photo.Photo{}
+	inputPhoto := photoObject
 	err = c.BodyParser(&inputPhoto)
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
 
-	_, err = userDriver.Get(map[string]interface{}{
+	o, err := userObject.Get(map[string]interface{}{
 		"username": session.Get("username").(string),
 	})
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUser := o.(user.User)
 
-	_, err = userPhotoDriver.Get(map[string]interface{}{
-		"_from": userDriver.GetField("_id"),
+	o, err = userPhotoObject.Get(map[string]interface{}{
+		"_from": dbUser.Id,
 		"index": index,
 	})
 	if err != nil {
@@ -232,9 +233,10 @@ func deletePhoto(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbUserPhoto := o.(user_photo.UserPhoto)
 
-	_, err = photoDriver.Get(map[string]interface{}{
-		"_id": userPhotoDriver.GetField("_to"),
+	o, err = photoObject.Get(map[string]interface{}{
+		"_id": dbUserPhoto.To,
 	})
 	if err != nil {
 		if errors.Is(err, database.NotFoundError) {
@@ -243,13 +245,14 @@ func deletePhoto(c *fiber.Ctx) error {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
+	dbPhoto := o.(photo.Photo)
 
-	err = userPhotoDriver.Delete()
+	err = dbUserPhoto.Delete()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
-	err = photoDriver.Delete()
+	err = dbPhoto.Delete()
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError

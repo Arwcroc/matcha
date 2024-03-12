@@ -9,6 +9,8 @@ import (
 	"matcha/backend/pkg/store"
 )
 
+const Local = "session"
+
 type Config struct {
 	Filter    func(c *fiber.Ctx) bool
 	CookieKey string
@@ -58,7 +60,8 @@ func (s *SessionManager) NewHandler() fiber.Handler {
 			slog.Debug("SessionManager: session created")
 		}
 
-		if c.Locals("session", &session) == nil {
+		if c.Locals(Local, &session) == nil {
+			slog.Error("could not set " + Local)
 			return fiber.ErrInternalServerError
 		}
 

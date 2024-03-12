@@ -69,7 +69,7 @@ func (d *Driver) Disconnect() error {
 	return nil
 }
 
-func (d *Driver) NewObjectDriver(objectType object.Object) (object.Driver, error) {
+func (d *Driver) NewObjectDriver(objectType object.IObject) (object.Driver, error) {
 	collection, err := d.Collection(objectType.Name())
 	if err != nil {
 		return nil, err

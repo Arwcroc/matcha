@@ -6,6 +6,8 @@ import (
 	"matcha/backend/pkg/slog"
 )
 
+const Local = "database"
+
 type Config struct {
 	Filter func(c *fiber.Ctx) bool
 	// Not using interface for Database here since it's hard to make it really generic (unlike SQL)
@@ -14,8 +16,8 @@ type Config struct {
 
 func NewHandler(config Config) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		if c.Locals("database", config.Database) == nil {
-			slog.Error("could not set database")
+		if c.Locals(Local, config.Database) == nil {
+			slog.Error("could not set " + Local)
 			return fiber.ErrInternalServerError
 		}
 

@@ -5,7 +5,7 @@ import "matcha/backend/pkg/object"
 type Driver interface {
 	Connect() error
 	Disconnect() error
-	NewObjectDriver(objectType object.Object) (object.Driver, error)
+	NewObjectDriver(objectType object.IObject) (object.Driver, error)
 }
 
 type Error struct {

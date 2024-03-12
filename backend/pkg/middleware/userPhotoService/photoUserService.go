@@ -3,20 +3,24 @@ package userPhotoService
 import (
 	"github.com/gofiber/fiber/v2"
 	"matcha/backend/pkg/database"
+	"matcha/backend/pkg/middleware/databaseManager"
+	"matcha/backend/pkg/object"
 	"matcha/backend/pkg/object/user_photo"
 	"matcha/backend/pkg/slog"
 )
 
-func UserPhotoService(c *fiber.Ctx) error {
-	driver := c.Locals("database").(database.Driver)
+const Local = "user_photo_object"
 
-	userPhotoDriver, err := driver.NewObjectDriver(user_photo.UserPhoto{})
+func UserPhotoService(c *fiber.Ctx) error {
+	driver := c.Locals(databaseManager.Local).(database.Driver)
+
+	userPhotoObject, err := object.New[user_photo.UserPhoto](driver)
 	if err != nil {
 		slog.Error(err)
 		return fiber.ErrInternalServerError
 	}
-	if c.Locals("user_photo_driver", userPhotoDriver) == nil {
-		slog.Error("could not set user_photo_driver")
+	if c.Locals(Local, userPhotoObject) == nil {
+		slog.Error("could not set " + Local)
 		return fiber.ErrInternalServerError
 	}
 
