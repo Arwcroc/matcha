@@ -7,13 +7,12 @@ import (
 	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
-	"matcha/backend/pkg/middleware/sessionManager"
+	"matcha/backend/pkg/decorators/services"
 	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/middleware/userUserService"
 	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/object/user_user"
 	"matcha/backend/pkg/slog"
-	"matcha/backend/pkg/store"
 )
 
 func Register(app *fiber.App) {
@@ -25,6 +24,7 @@ func Register(app *fiber.App) {
 		setRelationship,
 		permissions.LoggedIn{},
 		params.User{},
+		services.SelfUser{},
 	))
 }
 
@@ -32,9 +32,8 @@ func Register(app *fiber.App) {
 func setRelationship(c *fiber.Ctx) error {
 	c.Accepts("json")
 	userUserObject := c.Locals(userUserService.Local).(user_user.UserUser)
-	userObject := c.Locals(userService.Local).(user.User)
+	selfUser := c.Locals(services.SelfUserLocal).(user.User)
 	paramUser := c.Locals(params.UserLocal).(user.User)
-	session := c.Locals(sessionManager.Local).(*store.Session)
 
 	inputRelationship := userUserObject
 	err := c.BodyParser(&inputRelationship)
@@ -43,19 +42,10 @@ func setRelationship(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	o, err := userObject.Get(map[string]interface{}{
-		"username": session.Get("username").(string),
-	})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	dbUser := o.(user.User)
-
-	inputRelationship.From = dbUser.Id
+	inputRelationship.From = selfUser.Id
 	inputRelationship.To = paramUser.Id
 
-	o, err = userUserObject.Get(map[string]interface{}{
+	o, err := userUserObject.Get(map[string]interface{}{
 		"_from": inputRelationship.From,
 		"_to":   inputRelationship.To,
 	})

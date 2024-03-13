@@ -7,15 +7,14 @@ import (
 	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/params"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/decorators/services"
 	"matcha/backend/pkg/middleware/photoService"
-	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/middleware/userPhotoService"
 	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object/photo"
 	"matcha/backend/pkg/object/user"
 	"matcha/backend/pkg/object/user_photo"
 	"matcha/backend/pkg/slog"
-	"matcha/backend/pkg/store"
 )
 
 func Register(app *fiber.App) {
@@ -37,10 +36,12 @@ func Register(app *fiber.App) {
 	group.Put("/:index", decorators.Decorate(
 		setPhoto,
 		permissions.Self{},
+		services.SelfUser{},
 	))
 	group.Delete("/:index", decorators.Decorate(
 		deletePhoto,
 		permissions.Self{},
+		services.SelfUser{},
 	))
 }
 
@@ -135,8 +136,8 @@ func setPhoto(c *fiber.Ctx) error {
 
 	photoObject := c.Locals(photoService.Local).(photo.Photo)
 	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
-	userObject := c.Locals(userService.Local).(user.User)
-	session := c.Locals(sessionManager.Local).(*store.Session)
+	selfUser := c.Locals(services.SelfUserLocal).(user.User)
+
 	index, err := c.ParamsInt("index")
 	if err != nil {
 		slog.Warn(err)
@@ -150,17 +151,8 @@ func setPhoto(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	o, err := userObject.Get(map[string]interface{}{
-		"username": session.Get("username").(string),
-	})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	dbUser := o.(user.User)
-
-	o, err = userPhotoObject.Get(map[string]interface{}{
-		"_from": dbUser.Id,
+	o, err := userPhotoObject.Get(map[string]interface{}{
+		"_from": selfUser.Id,
 		"index": index,
 	})
 	if err != nil {
@@ -198,8 +190,8 @@ func setPhoto(c *fiber.Ctx) error {
 func deletePhoto(c *fiber.Ctx) error {
 	photoObject := c.Locals(photoService.Local).(photo.Photo)
 	userPhotoObject := c.Locals(userPhotoService.Local).(user_photo.UserPhoto)
-	userObject := c.Locals(userService.Local).(user.User)
-	session := c.Locals(sessionManager.Local).(*store.Session)
+	selfUser := c.Locals(services.SelfUserLocal).(user.User)
+
 	index, err := c.ParamsInt("index")
 	if err != nil {
 		slog.Warn(err)
@@ -213,17 +205,8 @@ func deletePhoto(c *fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 
-	o, err := userObject.Get(map[string]interface{}{
-		"username": session.Get("username").(string),
-	})
-	if err != nil {
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	dbUser := o.(user.User)
-
-	o, err = userPhotoObject.Get(map[string]interface{}{
-		"_from": dbUser.Id,
+	o, err := userPhotoObject.Get(map[string]interface{}{
+		"_from": selfUser.Id,
 		"index": index,
 	})
 	if err != nil {

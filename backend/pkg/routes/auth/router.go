@@ -6,6 +6,7 @@ import (
 	"matcha/backend/pkg/database"
 	"matcha/backend/pkg/decorators"
 	"matcha/backend/pkg/decorators/permissions"
+	"matcha/backend/pkg/decorators/services"
 	"matcha/backend/pkg/middleware/sessionManager"
 	"matcha/backend/pkg/middleware/userService"
 	"matcha/backend/pkg/object/user"
@@ -26,6 +27,7 @@ func Register(app *fiber.App) {
 	group.Get("/whoami", decorators.Decorate(
 		whoami,
 		permissions.LoggedIn{},
+		services.SelfUser{},
 	))
 	group.Get("/logout", decorators.Decorate(
 		logout,
@@ -83,21 +85,8 @@ func logout(c *fiber.Ctx) error {
 }
 
 func whoami(c *fiber.Ctx) error {
-	userObject := c.Locals(userService.Local).(user.User)
-	session := c.Locals(sessionManager.Local).(*store.Session)
+	selfUser := c.Locals(services.SelfUserLocal).(user.User)
 
-	o, err := userObject.Get(map[string]interface{}{
-		"username": session.Get("username").(string),
-	})
-	if err != nil {
-		if errors.Is(err, database.NotFoundError) {
-			return fiber.ErrNotFound
-		}
-		slog.Error(err)
-		return fiber.ErrInternalServerError
-	}
-	dbUser := o.(user.User)
-
-	dbUser.Password = ""
-	return c.JSON(dbUser)
+	selfUser.Password = ""
+	return c.JSON(selfUser)
 }
