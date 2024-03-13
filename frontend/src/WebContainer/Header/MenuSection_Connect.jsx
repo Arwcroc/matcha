@@ -16,9 +16,6 @@ import Logout from '@mui/icons-material/Logout';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import MailRoundedIcon from '@mui/icons-material/MailRounded';
 
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
@@ -44,6 +41,7 @@ import Badge from '@mui/material/Badge';
 import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
 
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const SlideBox = () => {
 	return (
@@ -196,10 +194,28 @@ const valueMapping = [
 	{ step: 10, label: '250km' },
 	{ step: 11, label: '300km' },
 	{ step: 12, label: '400km' },
-	{ step: 13, label: '500km' },
+	{ step: 13, label: "J'ai faim" },
+];
+
+const valueAgeMapping = [
+	{ step: 0, label: 'Pile pile' },
+	{ step: 1, label: "1 an d'écart" },
+	{ step: 2, label: "2 ans d'écart" },
+	{ step: 3, label: "3 ans d'écart" },
+	{ step: 4, label: "4 ans d'écart" },
+	{ step: 5, label: "5 ans d'écart" },
+	{ step: 6, label: "10 ans d'écart" },
+	{ step: 7, label: "15 ans d'écart" },
+	{ step: 8, label: "20 ans d'écart" },
+	{ step: 9, label: "25 ans d'écart" },
+	{ step: 10, label: "30 ans d'écart" },
+	{ step: 11, label: "35 ans d'écart" },
+	{ step: 12, label: "40 ans d'écart" },
+	{ step: 13, label: "J'ai faim" },
 ];
   
-const LimitSlider = () => {
+const LimitSlider = (props) => {
+	const {min, max, mapSelector, name} = props;
 	const [value, setValue] = useState(0);
 
 	const handleChange = (event) => {
@@ -209,11 +225,11 @@ const LimitSlider = () => {
 
 	return (
 		<div className="SettingPopUp__LimitSlider">
-			<p>Distance : {valueMapping[value].label}</p>
+			<p>{name} {mapSelector[value]?.label || "cpt"}</p>
 			<input
 				type="range"
-				min="0"
-				max="13"
+				min={min}
+				max={max}
 				step="1"
 				value={value}
 				onChange={handleChange}
@@ -313,38 +329,6 @@ const RateButtons = () => {
 	);
 };
 
-const DoubleSlider = () => {
-	const [minValue, setMinValue] = useState(0);
-	const [maxValue, setMaxValue] = useState(50);
-  
-	const handleThumb1Move = (e) => {
-	  const newValue = calculateValue(e);
-	  setMinValue(newValue);
-	};
-  
-	const handleThumb2Move = (e) => {
-	  const newValue = calculateValue(e);
-	  setMaxValue(newValue);
-	};
-  
-	const calculateValue = (e) => {
-	  const slider = e.target;
-	  const rect = slider.getBoundingClientRect();
-	  const percentage = (e.clientX - rect.left) / rect.width;
-	  const newValue = Math.round(percentage * 100);
-	  return newValue;
-	};
-  
-	return (
-	  <div className="double-slider">
-		<div className="thumb" style={{ left: `${minValue}%` }} onClick={handleThumb1Move}></div>
-		<div className="thumb" style={{ left: `${maxValue}%` }} onClick={handleThumb2Move}></div>
-		<div className="range" style={{ left: `${minValue}%`, width: `${maxValue - minValue}%` }}></div>
-	  </div>
-	);
-  };
-
-
 const PopUp_Setting = () => {
 	const [selectedAge, setSelectedAge] = useState(18);
 
@@ -372,7 +356,7 @@ const PopUp_Setting = () => {
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
 						Email
 						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
-						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Change your email</p>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Change your caramail</p>
 						<div className="App__WebContainer__Header__SettingPopUp__SettingName__DivBoxName">
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__NameBox">sac@merde.com</Box>
 						</div>
@@ -404,19 +388,19 @@ const PopUp_Setting = () => {
 						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Try to choose one where you wear clothes...</p>
 						<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer">
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
-								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Portrait}/>
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Portrait} alt={"profile1"}/>
 								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
 							</Box>
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
-								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Meuh}/>
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Meuh} alt={"profile2"}/>
 								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
 							</Box>
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
-								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Donna}/>
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Donna} alt={"profile3"}/>
 								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
 							</Box>
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
-								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Ermine}/>
+								<img className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Pics" src={Ermine} alt={"profile4"}/>
 								<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__Close">x</Box>
 							</Box>
 							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__PictureContainer__PicsBox">
@@ -446,12 +430,13 @@ const PopUp_Setting = () => {
 					Filter
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Age Gap
-						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Select what you want, it isn't me who go to jail</p>
-						<DoubleSlider/>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Select what you want, it isn't me who go to jail !</p>
+						<LimitSlider min="0" max="13" mapSelector={valueAgeMapping} name="Age : "/>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName TriSwitch">
 						Geographical Limit
-						<LimitSlider/>
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">All roads lead to bum...</p>
+						<LimitSlider min="0" max="13" mapSelector={valueMapping} name="Distance : "/>
 					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__FlagBox">
 						Interest Flag
@@ -507,42 +492,28 @@ const PopUp_Setting = () => {
 const PopUp_Matches = () => {
 	return (
 		<>
-			<Box className="App__WebContainer__Header__PopUp">
-				<Box className="App__WebContainer__Header__PopUp__Name">
-					Login
+			<Box className="App__WebContainer__Header__SettingPopUp__Interact">
+				<Box className="App__WebContainer__Header__SettingPopUp__Interact__Title">
+					Intereacts
 				</Box>
-				<Box className="App__WebContainer__Header__PopUp__PassMail">
-					<TextField id="email" label="Email" variant="standard" className="App__WebContainer__Header__PopUp__Email"/>
-					<TextField id="password" label="Password" variant="standard" className="App__WebContainer__Header__PopUp__Password"/>
+				<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer">
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Portrait} alt={"profile1"}/>
+						<VisibilityIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag view" fontSize='small'/>
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics liked" src={Meuh} alt={"profile2"}/>
+						<FavoriteIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag like" fontSize='small'/>
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics liked" src={Donna} alt={"profile3"}/>
+						<FavoriteIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag like" fontSize='small'/>
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Ermine} alt={"profile4"}/>
+						<VisibilityIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag view" fontSize='small'/>
+					</Box>
 				</Box>
-				<Box className="App__WebContainer__Header__PopUp__UsualAsk">
-					<FormControlLabel control={<Checkbox />} label="Remember me" />
-					<Box className="App__WebContainer__Header__PopUp__UsualAsk__Forgot">Forgot Password ?</Box>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__Validate">Login</Box>
-				<Box className="App__WebContainer__Header__PopUp__CreateAccount">Click here to create an account !</Box>
-			</Box>
-		</>
-	);
-}
-
-const PopUp_Login = () => {
-	return (
-		<>
-			<Box className="App__WebContainer__Header__PopUp">
-				<Box className="App__WebContainer__Header__PopUp__Name">
-					Login
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__PassMail">
-					<TextField id="email" label="Email" variant="standard" className="App__WebContainer__Header__PopUp__Email"/>
-					<TextField id="password" label="Password" variant="standard" className="App__WebContainer__Header__PopUp__Password"/>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__UsualAsk">
-					<FormControlLabel control={<Checkbox />} label="Remember me" />
-					<Box className="App__WebContainer__Header__PopUp__UsualAsk__Forgot">Forgot Password ?</Box>
-				</Box>
-				<Box className="App__WebContainer__Header__PopUp__Validate">Login</Box>
-				<Box className="App__WebContainer__Header__PopUp__CreateAccount">Click here to create an account !</Box>
 			</Box>
 		</>
 	);
@@ -588,7 +559,7 @@ const MenuSection_Connect = () => {
 		<>
 			<Box className="App__WebContainer__Header__MenuSection">
 				<Box className="App__WebContainer__Header__MenuSection__Logo">
-					<img src={Logo} width={150} height={75} />
+					<img src={Logo} width={150} height={75} alt="logo"/>
 				</Box>
 				<Box className="App__WebContainer__Header__MenuSection__RightSection">
 					<Box className="App__WebContainer__Header__MenuSection__Login">
@@ -695,7 +666,7 @@ const MenuSection_Connect = () => {
 				</Dialog>
 				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)}>
 					<DialogContent className="App__WebContainer__Header__MenuSection__Dialog">
-						<PopUp_Login />
+						<PopUp_Matches />
 					</DialogContent>
 				</Dialog>
 			</Box>
