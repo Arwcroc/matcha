@@ -871,27 +871,32 @@ code {
 
 
 .App__WebContainer__Header__SettingPopUp__Interact__Title {
-	display: flex;
-	width: 99%;
-	height: fit-content;
-	flex-direction: column;
+	width: 98%;
+	height: 50px;
+	position: sticky;
+	top: 0px;
+	font-size: 30px;
+	font-weight: bold;
+	color: rgb(0, 0, 0);
 	background-color: white;
-	padding-left: 3%;
-	padding-top: 1%;
-	margin-top: 3%;
-	margin-left: -2%;
-	font-size: 12px;
+	display: flex;
+	align-items: center;
+	padding-left: 2%;
+	z-index: 3;
+}
+
+.App__WebContainer__Header__SettingPopUp__Interact__Divider {
+	position: sticky;
 }
 
 .App__WebContainer__Header__SettingPopUp__Interact__PicsContainer {
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox {
 	display: flex;
-	/* align-items: center; */
-	/* justify-content: center; */
 	width: 22%;
 	margin-top: 1%;
 	margin-bottom: 1%;
@@ -902,7 +907,6 @@ code {
 
 .liked{
 	border: 2px solid rgb(255, 60, 0);
-
 }
 
 .viewed{
@@ -915,13 +919,16 @@ code {
 	border-radius: 9px;
 }
 
+.App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics:hover {
+	filter: grayscale(100%);
+  }
+
 .App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag {
 	position: absolute;
 	display: flex;
 	width: 50%;
 	height: 80%;
 	padding-top: 3%;
-	cursor: pointer;
 	align-items: center;
 	justify-content: center;
 	margin-left: 73%;
@@ -929,10 +936,26 @@ code {
 	color: white;
 }
 
+.App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox:hover::after {
+    content: attr(alt);
+    position: absolute;
+	width: fit-content;
+	height: fit-content;
+    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
 .like {
 	border-radius: 0px 8px 0px 8px;
 	border-left: 2px solid rgb(255, 60, 0);
 	border-bottom: 2px solid rgb(255, 60, 0);
+	border-right: 2px solid rgb(255, 60, 0);
 	background-color: rgb(255, 60, 0);
 }
 
@@ -940,6 +963,7 @@ code {
 	border-radius: 0px 8px 0px 8px;
 	border-left: 2px solid rgb(187, 255, 0);
 	border-bottom: 2px solid rgb(187, 255, 0);
+	border-right: 2px solid rgb(187, 255, 0);
 	background-color: rgb(187, 255, 0);
 }
 

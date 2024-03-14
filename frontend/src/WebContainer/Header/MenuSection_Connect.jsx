@@ -496,21 +496,26 @@ const PopUp_Matches = () => {
 				<Box className="App__WebContainer__Header__SettingPopUp__Interact__Title">
 					Intereacts
 				</Box>
+				<Divider className="App__WebContainer__Header__SettingPopUp__Interact__Divider" sx={{ borderBottomWidth: 2 }} style={{ background: 'black' }}/>
 				<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer">
-					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile1"}>
 						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Portrait} alt={"profile1"}/>
 						<VisibilityIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag view" fontSize='small'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile2"}>
 						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics liked" src={Meuh} alt={"profile2"}/>
 						<FavoriteIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag like" fontSize='small'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile3"}>
 						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics liked" src={Donna} alt={"profile3"}/>
 						<FavoriteIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag like" fontSize='small'/>
 					</Box>
-					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox">
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile4"}>
 						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Ermine} alt={"profile4"}/>
+						<VisibilityIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag view" fontSize='small'/>
+					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile1"}>
+						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Portrait} alt={"profile1"}/>
 						<VisibilityIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag view" fontSize='small'/>
 					</Box>
 				</Box>
