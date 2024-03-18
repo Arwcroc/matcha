@@ -42,6 +42,9 @@ import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
 
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import ReportOutlinedIcon from '@mui/icons-material/ReportOutlined';
+import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
+import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 
 const SlideBox = () => {
 	return (
@@ -124,7 +127,6 @@ const PopUp_Profile = () => {
 				</Box>
 				<Box className="App__WebContainer__Header__ProfilePopUp__Tags">
 					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#3dPrint" />
-					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#Fist"/>
 					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#Choucroute" />
 					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#GrosseVoiture" />
 					<Chip className='App__WebContainer__Header__ProfilePopUp__Tags_Tag' label="#VroumVroum" />
@@ -377,6 +379,29 @@ const PopUp_Setting = () => {
 						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Only steers and queers in Texas</p>
 						<ThreeStateToggleSwitch prop1='Hétéro' prop2='Bi' prop3='Lesb/Gay'/>
 					</Box>
+					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__FlagBox">
+						Personal Tag
+						<p className="App__WebContainer__Header__SettingPopUp__SettingName__Text">Not here to kinkshame, dirtyboy</p>
+						<Box className="App__WebContainer__Header__SettingPopUp__SettingName__AllTag">
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__Tag">Naruto</p>
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagRemover">x</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__Tag">Riz</p>
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagRemover">x</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+							<Box className="App__WebContainer__Header__SettingPopUp__SettingName__TagContainer">
+								<p className="App__WebContainer__Header__SettingPopUp__SettingName__TagAdd">+</p>
+							</Box>
+						</Box>
+					</Box>
 					<Box className="App__WebContainer__Header__SettingPopUp__SettingName__SimpleChange">
 						Biography
 						<EditIcon className="App__WebContainer__Header__SettingPopUp__SettingName__Icon" style={{ fontSize: '15px' }}/>
@@ -489,6 +514,19 @@ const PopUp_Setting = () => {
 	);
 }
 
+const LikedPerson = (props) => {
+	const {altProfile, picsName} = props;
+
+	return (
+		<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={altProfile}>
+			<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics" src={picsName} alt={altProfile}/>
+			<ReportOutlinedIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag Report" fontSize='small'/>
+			<RemoveShoppingCartOutlinedIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag Remove" fontSize='small'/>
+			<BlockOutlinedIcon className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsTag Block" fontSize='small'/>
+		</Box>
+	);
+}
+
 const PopUp_Matches = () => {
 	return (
 		<>
@@ -497,6 +535,16 @@ const PopUp_Matches = () => {
 					Intereacts
 				</Box>
 				<Divider className="App__WebContainer__Header__SettingPopUp__Interact__Divider" sx={{ borderBottomWidth: 2 }} style={{ background: 'black' }}/>
+				<p className="App__WebContainer__Header__SettingPopUp__Interact__SmallTitle">People I liked</p>
+				<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer">
+					<LikedPerson altProfile="profile1" picsName={Portrait}/>
+					<LikedPerson altProfile="profile2" picsName={Meuh}/>
+					<LikedPerson altProfile="profile3" picsName={Donna}/>
+					<LikedPerson altProfile="profile4" picsName={Ermine}/>
+					<LikedPerson altProfile="profile1" picsName={Portrait}/>
+				</Box>
+				<Divider className="App__WebContainer__Header__SettingPopUp__Interact__Divider" sx={{ borderBottomWidth: 2 }} style={{ background: 'black' }}/>
+				<p className="App__WebContainer__Header__SettingPopUp__Interact__SmallTitle">People interact with my profile</p>
 				<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer">
 					<Box className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__PicsBox" alt={"profile1"}>
 						<img className="App__WebContainer__Header__SettingPopUp__Interact__PicsContainer__Pics viewed" src={Portrait} alt={"profile1"}/>
@@ -669,7 +717,7 @@ const MenuSection_Connect = () => {
 						<PopUp_Setting />
 					</DialogContent>
 				</Dialog>
-				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)}>
+				<Dialog open={matchesOpen} onClose={() => setMatchesOpen(false)} sx={{'.MuiDialogContent-root': {padding: 0, borderRadius: "8px"},}}>
 					<DialogContent className="App__WebContainer__Header__MenuSection__Dialog">
 						<PopUp_Matches />
 					</DialogContent>
