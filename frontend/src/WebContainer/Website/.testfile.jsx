@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import BackImg from '../../Images/MainPage/backgroung-unsplash.jpg';
-import Logo from '../../Images/MenuSection/uletter.png';
 import Portrait from '../../Images/MainPage/joconde.jpg';
 import GirlPort from '../../Images/MainPage/Girl_Pearl.jpg';
 import Donna from '../../Images/MainPage/donna.jpg';
@@ -9,6 +8,10 @@ import Meuh from '../../Images/MainPage/meuhmeuh.jpg';
 import Ermine from '../../Images/MainPage/Ermine.jpg';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
 
 const SlideBox = () => {
 	return (
@@ -38,31 +41,67 @@ const Swipe = () => {
 		<div>
 			<Box className="App__WebContainer__Website__Main">
 				<img className="App__WebContainer__Website__Main__Background" src={BackImg} style={{ width:"100%"}}/>
-				<Box className="App__WebContainer__Website__Main__OldOldCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__OldCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__PrimaryCard">
-					<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
-						<SlideBox />
+				<Swiper
+					effect={'coverflow'}
+					grabCursor={true}
+					// spaceBetween={50}
+					slidesPerView={3}
+					centeredSlides={true}
+					// allowSlideNext={false}
+					allowSlidePrev={false}
+					coverflowEffect={{
+						rotate: 50,
+						stretch: 0,
+						depth: 100,
+						modifier: 1,
+						slideShadows: true,
+					}}
+					modules={[EffectCoverflow]}
+					className="mySwiper"
+					onSlideChange={(swiper) => {
+						const slides = swiper.slides;
+						slides.forEach((slide) => {
+						  slide.classList.remove('active-slide');
+						});
+						slides[swiper.activeIndex].classList.add('active-slide');
+					  }}
+				>
+				<SwiperSlide>
+					<Box className="App__WebContainer__Website__Main__OldOldCard">
+						<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
 					</Box>
-					<Box className="App__WebContainer__Website__Main__Response">
-						<Box className="App__WebContainer__Website__Main__Response__No">
-							Non
+				</SwiperSlide>
+				<SwiperSlide>
+					<Box className="App__WebContainer__Website__Main__OldCard">
+						<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
+					</Box>
+				</SwiperSlide>
+				<SwiperSlide>
+					<Box className="App__WebContainer__Website__Main__PrimaryCard">
+						<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
+							<SlideBox />
 						</Box>
-						<Box className="App__WebContainer__Website__Main__Response__Yes">
-							Oui
+						<Box className="App__WebContainer__Website__Main__Response">
+							<Box className="App__WebContainer__Website__Main__Response__No">
+								Non
+							</Box>
+							<Box className="App__WebContainer__Website__Main__Response__Yes">
+								Oui
+							</Box>
 						</Box>
 					</Box>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__NextCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__NextNextCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
-				</Box>
+				</SwiperSlide>
+				<SwiperSlide>
+					<Box className="App__WebContainer__Website__Main__NextCard">
+						<img src={Portrait} />
+					</Box>
+				</SwiperSlide>
+				<SwiperSlide>
+					<Box className="App__WebContainer__Website__Main__NextNextCard">
+						<img src={Portrait} />
+					</Box>
+				</SwiperSlide>
+				</Swiper>
 			</Box>
 		</div>
 	);
