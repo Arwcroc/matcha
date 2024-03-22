@@ -1,7 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import BackImg from '../../Images/MainPage/backgroung-unsplash.jpg';
-import Logo from '../../Images/MenuSection/uletter.png';
 import Portrait from '../../Images/MainPage/joconde.jpg';
 import GirlPort from '../../Images/MainPage/Girl_Pearl.jpg';
 import Donna from '../../Images/MainPage/donna.jpg';
@@ -33,36 +33,46 @@ const SlideBox = () => {
 	);
 }
 
+const Primary = () => {
+	const [currentIndex, setCurrentIndex] = useState(0);
+
+	const handleLike = () => {
+	  setCurrentIndex(currentIndex + 1);
+	};
+  
+	const handleDislike = () => {
+	  setCurrentIndex(currentIndex + 1);
+	};
+
+	return (
+		<Box className="App__WebContainer__Website__Main__PrimaryCard">
+			<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
+				<SlideBox />
+			</Box>
+			<Box className="App__WebContainer__Website__Main__Response">
+				<Box className="App__WebContainer__Website__Main__Response__No" onClick={handleDislike}>
+					Non
+				</Box>
+				<Box className="App__WebContainer__Website__Main__Response__Yes" onClick={handleLike}>
+					Oui
+				</Box>
+			</Box>
+		</Box>
+	);
+}
+
 const Swipe = () => {
 	return (
 		<div>
 			<Box className="App__WebContainer__Website__Main">
 				<img className="App__WebContainer__Website__Main__Background" src={BackImg} style={{ width:"100%"}}/>
-				<Box className="App__WebContainer__Website__Main__OldOldCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__OldCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__PrimaryCard">
-					<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
-						<SlideBox />
+					<Box className="App__WebContainer__Website__Main__OldCard">
+						<img src={Meuh} className="App__WebContainer__Website__Main__OldCard__Profile"/>
 					</Box>
-					<Box className="App__WebContainer__Website__Main__Response">
-						<Box className="App__WebContainer__Website__Main__Response__No">
-							Non
-						</Box>
-						<Box className="App__WebContainer__Website__Main__Response__Yes">
-							Oui
-						</Box>
+					<Primary />
+					<Box className="App__WebContainer__Website__Main__NextCard">
+						<img src={Donna} className="App__WebContainer__Website__Main__OldCard__Profile"/>
 					</Box>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__NextCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldCard__Profile"/>
-				</Box>
-				<Box className="App__WebContainer__Website__Main__NextNextCard">
-					<img src={Portrait} className="App__WebContainer__Website__Main__OldOldCard__Profile"/>
-				</Box>
 			</Box>
 		</div>
 	);

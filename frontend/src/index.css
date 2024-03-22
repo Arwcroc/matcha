@@ -1230,8 +1230,8 @@ code {
 	z-index: 2;
 	background-color: rgb(175, 175, 175);
 	margin-top: -15%;
-	width: 250px;
-	height:420px;
+	width: 25%;
+	height:20%;
 	border: none;
 	border-radius: 20px;
 	align-items: center;
@@ -1241,8 +1241,8 @@ code {
 
 .App__WebContainer__Website__Main__OldCard__Profile {
 	display: flex;
-	width: 95%;
-	height: 95%;
+	width: 100%;
+	height: 100%;
 	border: none;
 	border-radius: 15px;
 	align-items: center;
@@ -1250,59 +1250,19 @@ code {
 	opacity: 0.6;
 }
 
-.App__WebContainer__Website__Main__OldOldCard {
-	display: flex;
-	z-index: 2;
-	background-color: rgb(68, 68, 68);
-	margin-top: -5%;
-	width: 200px;
-	height:300px;
-	border: none;
-	border-radius: 20px;
-	align-items: center;
-	justify-content: space-around;
-	opacity: 0.9;
-}
-
-.App__WebContainer__Website__Main__OldOldCard__Profile {
-	display: flex;
-	width: 95%;
-	height: 95%;
-	border: none;
-	border-radius: 15px;
-	align-items: center;
-	justify-content: center;
-	opacity: 0.3;
-}
-
 .App__WebContainer__Website__Main__NextCard {
 	display: flex;
 	z-index: 2;
 	background-color: rgb(175, 175, 175);
+	filter: blur(18px);
 	margin-top: -15%;
-	width: 250px;
-	height:420px;
+	width: 25%;
+	height:25%;
 	border: none;
 	border-radius: 20px;
 	align-items: center;
 	justify-content: center;
 }
-
-.App__WebContainer__Website__Main__NextNextCard {
-	display: flex;
-	z-index: 2;
-	background-color: rgb(68, 68, 68);
-	margin-top: -5%;
-	width: 200px;
-	height:300px;
-	border: none;
-	border-radius: 20px;
-	align-items: center;
-	justify-content: center;
-}
-
-
-
 
 
 
