@@ -138,6 +138,37 @@ const PopUp_Profile = () => {
 }
 
 const PopUp_Message = () => {
+	const [messages, setMessages] = useState([]);
+    const [inputText, setInputText] = useState('');
+	const [selectedUser, setSelectedUser] = useState(null);
+	const [selectedUserName, setSelectedUserName] = useState('');
+
+    const handleInputChange = (e) => {
+        setInputText(e.target.value);
+    };
+
+    const sendMessage = () => {
+        if (inputText.trim() !== '') {
+            const newMessage = {
+                text: inputText,
+                sender: 'me',
+            };
+            setMessages([...messages, newMessage]);
+            setInputText('');
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    };
+
+	const handleUserClick = (userName) => {
+        setSelectedUser(userName);
+        setSelectedUserName(userName);
+    };
+
 	return (
 		<>
 			<Box className="App__WebContainer__Header__MessagePopUp">
@@ -148,7 +179,7 @@ const PopUp_Message = () => {
 						<SearchIcon className="App__WebContainer__Header__MessagePopUp__GuysSection__SearchIcon"/>
 						<input className="App__WebContainer__Header__MessagePopUp__GuysSection__Search" placeholder="Search..." type="text"/>
 					</Box>
-					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox">
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox" onClick={() => handleUserClick('Anne')}>
 						<Badge color="success" overlap="circular" badgeContent=" " variant="dot">
 							<Avatar className="App__WebContainer__Header__MessagePopUp__GuysSection__UserPics" src={Meuh}>
 								A
@@ -156,25 +187,43 @@ const PopUp_Message = () => {
 						</Badge>		
 						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Anne</p>
 					</Box>
-					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox">
+					<Box className="App__WebContainer__Header__MessagePopUp__GuysSection__UserBox" onClick={() => handleUserClick('Sandrine')}>
 						<Badge color="error" overlap="circular" badgeContent=" " variant="dot">
 							<Avatar className="App__WebContainer__Header__MessagePopUp__GuysSection__UserPics" src={Donna}>
-								A
+								S
 							</Avatar>
 						</Badge>		
 						<p className="App__WebContainer__Header__MessagePopUp__GuysSection__UserInfo">Sandrine</p>
 					</Box>
 				</Box>
 				<Box className="App__WebContainer__Header__MessagePopUp__MessageSection">
-					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">Anne</Box>
+					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">{selectedUserName !== '' ? selectedUserName : "Profil"}</Box>
 					<Divider/>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage">
-						<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgIn">message in and its for the fame you know, like when taylor swift take the biggest airplane to go to take the break, the oui oui baguette </Box>
-						<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__MsgOut">message out</Box>
+						{messages.map((message, index) => {
+							if (selectedUser === null || message.sender === selectedUser || message.sender === 'me') {
+								return (
+									<Box
+										key={index}
+										className={`App__WebContainer__Header__MessagePopUp__MessageSection__Msg${message.sender === 'me' ? 'Out' : 'In'}`}
+									>
+										{message.text}
+									</Box>
+								);
+							} else {
+								return null;
+							}
+						})}
 					</Box>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__TypeZone">
-						<textarea onkeyup="textAreaAdjust(this)" className="App__WebContainer__Header__MessagePopUp__MessageSection__InputType"/>
-						<ArrowCircleUpRoundedIcon className="App__WebContainer__Header__MessagePopUp__MessageSection__SendIcon"/>
+						<textarea 
+							onkeyup="textAreaAdjust(this)"
+							className="App__WebContainer__Header__MessagePopUp__MessageSection__InputType"
+							value={inputText}
+							onChange={handleInputChange}
+                        	onKeyPress={handleKeyPress}
+							/>
+						<ArrowCircleUpRoundedIcon className="App__WebContainer__Header__MessagePopUp__MessageSection__SendIcon" onClick={sendMessage}/>
 					</Box>
 				</Box>
 			</Box>
