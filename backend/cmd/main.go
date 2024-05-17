@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/arangodb/go-driver"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"matcha/backend/pkg/database/arangodb"
 	"matcha/backend/pkg/middleware/databaseManager"
 	"matcha/backend/pkg/middleware/logger"
@@ -54,6 +55,7 @@ func main() {
 		Database: &arango,
 	}))
 	app.Use(sessions.NewHandler())
+	app.Use(cors.New())
 	app.Use(logger.NewHandler(logger.Config{}))
 
 	auth.Register(app)

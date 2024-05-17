@@ -45,12 +45,15 @@ func login(c *fiber.Ctx) error {
 	session := c.Locals("session").(*store.Session)
 	userDriver := c.Locals("user_driver").(object.Driver)
 
+	slog.Info(string(c.Body()))
 	inputCredentials := credentials{}
 	err := c.BodyParser(&inputCredentials)
 	if err != nil {
 		slog.Warn(err)
 		return fiber.ErrBadRequest
 	}
+	slog.Info("username:", inputCredentials.Username)
+	slog.Info("password:", inputCredentials.Password)
 
 	key := "username"
 	value := inputCredentials.Username
@@ -59,12 +62,14 @@ func login(c *fiber.Ctx) error {
 		value = inputCredentials.Email
 	}
 	if key == "email" && inputCredentials.Email == "" {
+		slog.Warn("no email")
 		return fiber.ErrBadRequest
 	}
 
 	_, err = userDriver.Get(key, value)
 	if err != nil {
 		if errors.Is(err, database.NotFoundError) {
+			slog.Warn("user not found")
 			return fiber.ErrNotFound
 		}
 		slog.Error(err)
@@ -72,6 +77,7 @@ func login(c *fiber.Ctx) error {
 	}
 
 	if !utils.CheckPasswordHash(inputCredentials.Password, userDriver.GetField("password").(string)) {
+		slog.Warn("passwords do not match")
 		return fiber.ErrNotFound
 	}
 
