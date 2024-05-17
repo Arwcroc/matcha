@@ -138,7 +138,7 @@ const PopUp_Profile = () => {
 }
 
 const PopUp_Message = () => {
-	const [messages, setMessages] = useState([]);
+	const [messages, setMessages] = useState({});
     const [inputText, setInputText] = useState('');
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [selectedUserName, setSelectedUserName] = useState('');
@@ -153,13 +153,17 @@ const PopUp_Message = () => {
                 text: inputText,
                 sender: 'me',
             };
-            setMessages([...messages, newMessage]);
+			const userMessages = messages[selectedUserName] ? messages[selectedUserName] : []
+			const newMessages = {...messages}
+			newMessages[selectedUserName] = [...userMessages, newMessage]
+            setMessages(newMessages);
             setInputText('');
         }
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+		if (e.key === 'Enter') {
+			e.preventDefault();
             sendMessage();
         }
     };
@@ -168,6 +172,8 @@ const PopUp_Message = () => {
         setSelectedUser(userName);
         setSelectedUserName(userName);
     };
+
+	const displayedMessages = messages[selectedUserName] ? messages[selectedUserName] : []
 
 	return (
 		<>
@@ -200,7 +206,7 @@ const PopUp_Message = () => {
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__UserInfo">{selectedUserName !== '' ? selectedUserName : "Profil"}</Box>
 					<Divider/>
 					<Box className="App__WebContainer__Header__MessagePopUp__MessageSection__BlockMessage">
-						{messages.map((message, index) => {
+						{displayedMessages.map((message, index) => {
 							if (selectedUser === null || message.sender === selectedUser || message.sender === 'me') {
 								return (
 									<Box
