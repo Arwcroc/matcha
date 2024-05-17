@@ -9,6 +9,7 @@ import Meuh from '../../Images/MainPage/meuhmeuh.jpg';
 import Ermine from '../../Images/MainPage/Ermine.jpg';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import Typography from '@mui/material/Typography';
 
 const SlideBox = () => {
 	return (
@@ -29,6 +30,8 @@ const SlideBox = () => {
 				<Slide index={4}><div className="slide__image__container"><img className="slide__image__prout" src={Donna} alt="Slide 5"/></div></Slide>
 			</Slider>
 			<ButtonNext className="App__WebContainer__Website__Main__PrimaryCard__Carousel__Next">{">"}</ButtonNext>
+			<Typography className="App__WebContainer__Website__Main__PrimaryCard__Name" fontSize={"24px"}>Sandrine, 94</Typography>
+			<Typography className="App__WebContainer__Website__Main__PrimaryCard__Place" fontSize={"14px"}>À 5km</Typography>
 		</CarouselProvider>
 	);
 }
