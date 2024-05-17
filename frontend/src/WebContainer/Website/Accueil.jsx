@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import BackImg from '/mnt/nfs/homes/tefroiss/Documents/matcha/matcha/src/Images/MainPage/backgroung-unsplash.jpg';
+import BackImg from '../../Images/MainPage/backgroung-unsplash.jpg';
 
 const Accueil = () => {
 	return (
