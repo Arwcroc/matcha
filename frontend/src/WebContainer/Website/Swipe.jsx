@@ -33,7 +33,7 @@ const SlideBox = () => {
 	);
 }
 
-const Primary = () => {
+const Swipe = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const handleLike = () => {
@@ -45,33 +45,21 @@ const Primary = () => {
 	};
 
 	return (
-		<Box className="App__WebContainer__Website__Main__PrimaryCard">
-			<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
-				<SlideBox />
-			</Box>
-			<Box className="App__WebContainer__Website__Main__Response">
-				<Box className="App__WebContainer__Website__Main__Response__No" onClick={handleDislike}>
-					Non
-				</Box>
-				<Box className="App__WebContainer__Website__Main__Response__Yes" onClick={handleLike}>
-					Oui
-				</Box>
-			</Box>
-		</Box>
-	);
-}
-
-const Swipe = () => {
-	return (
 		<div>
 			<Box className="App__WebContainer__Website__Main">
 				<img className="App__WebContainer__Website__Main__Background" src={BackImg} style={{ width:"100%"}}/>
-					<Box className="App__WebContainer__Website__Main__OldCard">
-						<img src={Meuh} className="App__WebContainer__Website__Main__OldCard__Profile"/>
-					</Box>
-					<Primary />
-					<Box className="App__WebContainer__Website__Main__NextCard">
-						<img src={Donna} className="App__WebContainer__Website__Main__OldCard__Profile"/>
+					<Box className="App__WebContainer__Website__Main__PrimaryCard">
+						<Box className="App__WebContainer__Website__Main__PrimaryCard__Profile">
+							<SlideBox />
+						</Box>
+						<Box className="App__WebContainer__Website__Main__Response">
+							<Box className="App__WebContainer__Website__Main__Response__No" onClick={handleDislike}>
+								Non
+							</Box>
+							<Box className="App__WebContainer__Website__Main__Response__Yes" onClick={handleLike}>
+								Oui
+							</Box>
+						</Box>
 					</Box>
 			</Box>
 		</div>
